@@ -9,9 +9,13 @@ import java.util.List;
 
 @RequestMapping("/api/application")
 @RestController
-@RequiredArgsConstructor
+
 public class ApplicationController {
-    final ApplicationService applicationService;
+    private final ApplicationService applicationService;
+    public ApplicationController(ApplicationService applicationService) {
+        this.applicationService = applicationService;
+    }
+
     @PostMapping
     public Application createApplication(Application application) {
         return applicationService.addApplication(application);
