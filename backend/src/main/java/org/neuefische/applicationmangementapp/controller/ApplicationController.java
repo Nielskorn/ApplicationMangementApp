@@ -21,7 +21,7 @@ public class ApplicationController {
         return applicationService.updateApplication(application);
     }
     @DeleteMapping
-    public void deleteApplication(@RequestParam int id) {
+    public void deleteApplication(@RequestParam String id) {
         applicationService.deleteApplicationById(id);
     }
 
@@ -32,7 +32,7 @@ public class ApplicationController {
 
     }
     @GetMapping
-    public Application getApplicationById(@RequestParam int id) {
+    public Application getApplicationById(@RequestParam String id) {
         return applicationService.getApplicationById(id);
     }
 }
