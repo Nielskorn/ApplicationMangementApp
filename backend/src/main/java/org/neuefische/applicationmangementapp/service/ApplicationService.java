@@ -8,8 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class ApplicationService {
-    @Autowired
-    ApplicationRepo applicationRepo;
+
+    final private ApplicationRepo applicationRepo;
+
+    public ApplicationService(ApplicationRepo applicationRepo) {
+        this.applicationRepo = applicationRepo;
+    }
+
     public Application addApplication(Application application) {
      return    applicationRepo.save(application);
     }

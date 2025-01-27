@@ -35,7 +35,7 @@ public class ApplicationController {
         return applicationService.getAllApplications();
 
     }
-    @GetMapping
+    @GetMapping("/{id}")
     public Application getApplicationById(@RequestParam String id) {
         return applicationService.getApplicationById(id);
     }
