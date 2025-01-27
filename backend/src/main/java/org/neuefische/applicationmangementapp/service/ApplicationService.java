@@ -1,26 +1,39 @@
 package org.neuefische.applicationmangementapp.service;
 
+import ch.qos.logback.classic.spi.IThrowableProxy;
+import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
+
+import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
+import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;
+import org.neuefische.applicationmangementapp.model.appliStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class ApplicationService {
 
-    final private ApplicationRepo applicationRepo;
+    private final  ApplicationRepo applicationRepo;
 
     public ApplicationService(ApplicationRepo applicationRepo) {
         this.applicationRepo = applicationRepo;
     }
 
-    public Application addApplication(Application application) {
+    public Application addApplication(ApplicationDtoForCreated applicationDto) {
+        Application application=new Application(IdService.getId(),applicationDto.jobTitle(),applicationDto.jobDescription(),applicationDto.resume(),applicationDto.coverLetter(), appliStatus.OPEN);
      return    applicationRepo.save(application);
     }
 
-    public Application updateApplication(Application application) {
-     return    applicationRepo.save(application);
+    public Application updateApplication(String id, ApplicationDtoForEdit applicationDto) throws Exception {
+        if (applicationRepo.findById(id).isEmpty()){
+            throw new NoSuchId("no such id: "+id );
+        }else{
+            Application application=new Application(id,applicationDto.jobTitle(),applicationDto.jobDescription(),applicationDto.resume(),applicationDto.coverLetter(), applicationDto.appliStatus());
+            return    applicationRepo.save(application);
+        }
+
     }
 
     public void deleteApplicationById(String id) {
@@ -31,7 +44,10 @@ public class ApplicationService {
     return     applicationRepo.findAll();
     }
 
-    public Application getApplicationById(String id) {
-      return   applicationRepo.findById(id).orElseThrow();
+    public Application getApplicationById(String id) throws NoSuchId {
+      if (applicationRepo.findById(id).isEmpty()){
+          throw new NoSuchId("no such id: "+id);
+      }
+        return  applicationRepo.findById(id).get();
     }
 }
