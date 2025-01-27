@@ -7,6 +7,7 @@ import './App.css'
 import {Link, Route, Routes} from "react-router-dom";
 import Applicationdetails from "./Page/ApplicationDetails.tsx";
 import HomePage from "./Page/HomePage.tsx";
+import EditApplicationSite from "./Page/EditApplicationSite.tsx";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/application/:id" element={<Applicationdetails/>} />
             <Route path="/"element={<HomePage/>}/>
             <Route path="/newApplication" element={<NewApplicationSite/>}/>
+        <Route path="/editApplication/:id" element={<EditApplicationSite/>} />
         </Routes>
     </>
   )
