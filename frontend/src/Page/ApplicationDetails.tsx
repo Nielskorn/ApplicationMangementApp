@@ -21,12 +21,23 @@ export default function Applicationdetails(){
 function navigateToEditPage(){
         navigate("/editApplication/"+id)
 }
+function deleteEntry() {
+   try{
+    axios.delete(`/api/application/${id}`)
+    alert("application Gelöscht")
+    navigate("/");
+}catch(error){
+       console.error("fehler Beim löschen:", error);
+   }
+    }
+
     return(
         <div className="ApplicationDetails">
             <h1>applicationDetails</h1>
             <h2>{jobTitle}</h2>
             <p>{jobDescription}</p>
-            <button onClick={navigateToEditPage}></button>
+            <button onClick={navigateToEditPage}>Edit</button>
+            <button onClick={deleteEntry}>Delete</button>
         </div>
     )
 }
