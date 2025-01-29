@@ -11,6 +11,7 @@ import EditApplicationSite from "./Page/EditApplicationSite.tsx";
 import JobOfferPage from "./Page/JobOfferPage.tsx";
 import EditJobOfferPage from "./Page/EditJobOfferPage.tsx";
 import NewJobOfferPage from "./Page/NewJobOffer.tsx";
+import JobDetailsPage from "./Page/JobDetailsPage.tsx";
 
 function App() {
 
@@ -21,13 +22,15 @@ function App() {
     <nav>
     <Link to="/">Home </Link>
         <Link to="/newApplication">newApplycation </Link>
-        <Link to="jobOffer"> JobOffers</Link>
+        <Link to="/jobOffer"> JobOffers</Link>
+        <Link to="/newJobOffer"> newJobOffer</Link>
 
     </nav>
 </header>
         <main className="container">
         <Routes>
             <Route path="/application/:id" element={<Applicationdetails/>} />
+            <Route path="/jobOffer/:id"element={<JobDetailsPage/>}/>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/jobOffer" element={<JobOfferPage/>}/>
             <Route path="/newJobOffer" element={<NewJobOfferPage/>}/>

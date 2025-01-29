@@ -2,6 +2,7 @@ package org.neuefische.applicationmangementapp.service;
 
 import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.JobOffer;
+import org.neuefische.applicationmangementapp.model.JobOfferDto;
 import org.neuefische.applicationmangementapp.repo.JobOfferRepo;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,15 @@ import java.util.Optional;
 public class JobOfferService {
 final JobOfferRepo jobOfferRepo;
 
+
     public JobOfferService(JobOfferRepo jobOfferRepo) {
         this.jobOfferRepo = jobOfferRepo;
     }
 
-    public JobOffer createJobOffer(JobOffer jobOffer) {
+    public JobOffer createJobOffer(JobOfferDto jobOfferDto) {
+        JobOffer jobOffer=new JobOffer(IdService.getId(),jobOfferDto.Url_companyLogo(),
+                jobOfferDto.companyName(),jobOfferDto.location(),jobOfferDto.jobTitle(),
+                jobOfferDto.jobDescription());
         return jobOfferRepo.save(jobOffer);
     }
 

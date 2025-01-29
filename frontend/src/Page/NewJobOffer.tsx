@@ -9,11 +9,18 @@ export default function NewJobOfferPage(){
     const [companyLogoUrl,setCompanyLogoUrl]=useState<string>("")
 function OnReset(){
         setCompanyName("")
+    setJobTitle("")
+    setJobDescription("")
+    setLocation("")
+    setCompanyLogoUrl("")
 
 }
     function OnSubmit(event:FormEvent<HTMLFormElement>){
         event.preventDefault();
-        axios.post("api/joboffer",{}).then().catch(error=>{console.error(error)})
+        axios.post("api/joboffer",{
+            Url_companyLogo:companyLogoUrl
+            ,companyName: companyName,
+            location: location, jobTitle: jobTitle, jobDescription: jobDescription}).then().catch(error=>{console.error(error)})
         OnReset()
     }
     return(

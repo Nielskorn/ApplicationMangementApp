@@ -2,6 +2,7 @@ package org.neuefische.applicationmangementapp.controller;
 
 import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.JobOffer;
+import org.neuefische.applicationmangementapp.model.JobOfferDto;
 import org.neuefische.applicationmangementapp.service.JobOfferService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class JobOfferController {
         return jobOfferService.getJobOfferById(id);
     }
     @PostMapping()
-    public JobOffer createJobOffer(@RequestBody JobOffer jobOffer) {
+    public JobOffer createJobOffer(@RequestBody JobOfferDto jobOffer) {
         return jobOfferService.createJobOffer(jobOffer);
     }
     @PutMapping("/{id}")
