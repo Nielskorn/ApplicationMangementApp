@@ -4,24 +4,29 @@ import axios from "axios";
 import {Application} from "../types/Application.ts";
 import StatusIndicator from "../Component/StatusIndicator.tsx";
 
+
 export default function Applicationdetails(){
     const {id}=useParams<{id:string}>();
     const navigate=useNavigate()
     //const [data,SetData]=useState<Application>();
-    const [jobTitle,setJobTitle]=useState<string>("");
-    const [jobDescription,setJobDescription]=useState<string>("");
+    const [jobOfferID,setJobOfferID]=useState<string>("");
+
     const [resume,setResume]=useState<string>("");
-    const [coverLetter,setCoverletter]=useState<string>();
+    const [coverLetter, setCoverLetter]=useState<string>();
     const [status,setStatus]=useState<string>("");
+    const [reminderTime,setReminderTime]=useState<string>()
+    const [dateOfCreation,setDateOfCreation]=useState<string>();
     useEffect(()=>{
         const fetchApplication=async ()=>{
             const response=await axios.get<Application>(`/api/application/${id}`);
-            setJobTitle(response.data.jobTitle);
-            setJobDescription(response.data.jobDescription)
+            setJobOfferID(response.data.jobOfferID);
+
             setResume(response.data.resume)
-            setCoverletter(response.data.coverLetter)
+            setCoverLetter(response.data.coverLetter)
             setStatus(response.data.appliStatus)
-                console.log(jobTitle)
+            setReminderTime(response.data.reminderTime)
+            setDateOfCreation(response.data.dateOfCreation)
+
         };
         fetchApplication();
     },[id])
@@ -42,11 +47,13 @@ function deleteEntry() {
     return(
         <div className="ApplicationDetails">
             <h1>applicationDetails</h1>
-            <h2>{jobTitle}</h2>
-            <p>{jobDescription}</p>
+            <h2>{jobOfferID}</h2>
             <p>{resume}</p>
             <p>{coverLetter}</p>
             <StatusIndicator status={status}/>
+            <p>{reminderTime} </p>
+            <p>Created:{dateOfCreation}</p>
+
             <button onClick={navigateToEditPage}>Edit</button>
             <button onClick={deleteEntry}>Delete</button>
         </div>

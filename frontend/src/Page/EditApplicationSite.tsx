@@ -5,35 +5,38 @@ import {Application} from "../types/Application.ts";
 
 export default function EditApplicationSite(){
     const {id}=useParams<{id:string}>();
-    const [jobTitle,setJobTitle]=useState<string>("");
-    const [jobDescription,setJobDescription]=useState<string>("");
+    const [jobOfferID,setJobOfferID]=useState<string>("");
+
     const [resume,setResume]=useState<string>("");
     const [coverLetter,setCoverLetter]=useState<string>("");
     const [appliStatus,setAppliStatus]=useState<string>("");
+    const [reminderTime,setReminderTime]=useState<string>("")
+
     useEffect(()=>{
         const fetchApplication=async ()=>{
             const response=await axios.get<Application>(`/api/application/${id}`);
-            setJobTitle(response.data.jobTitle);
-            setJobDescription(response.data.jobDescription)
+            setJobOfferID(response.data.jobOfferID);
             setResume(response.data.resume)
             setCoverLetter(response.data.coverLetter)
             setAppliStatus(response.data.appliStatus)
-            console.log(jobTitle)
+            setReminderTime(response.data.dateOfCreation)
+
         };
         fetchApplication();
     },[id])
     function OnSubmit(event:FormEvent<HTMLFormElement>){
         event.preventDefault();
-        axios.put("/api/application",{id,jobTitle: jobTitle, jobDescription: jobDescription, resume:resume,
-            coverLetter: coverLetter,appliStatus:appliStatus
+        axios.put("/api/application",{id, jobOfferID:jobOfferID,resume:resume,
+            coverLetter: coverLetter,appliStatus:appliStatus, reminderTime: reminderTime
         }).then().catch(error=>{console.log(error)})
         OnReset()
     }
     function OnReset(){
-        setJobTitle("")
-        setJobDescription("")
+        setJobOfferID("")
         setCoverLetter("")
         setResume("")
+        setAppliStatus("OPEN")
+        setReminderTime("")
     }
     return(
 
@@ -42,20 +45,13 @@ export default function EditApplicationSite(){
             <form className="addForm" onSubmit={OnSubmit} onReset={OnReset}>
                 <label>Jobtitle:
                     <input type="text"
-                           value={jobTitle}
-                           placeholder="Job Title"
+                           value={jobOfferID}
+                           placeholder="JobOfferID"
                            className="formField"
-                           onChange={event => {setJobTitle(event.target.value)}}
+                           onChange={event => {setJobOfferID(event.target.value)}}
                     />
                 </label>
-                <label>JobDescription
-                    <input type="text"
-                           value={jobDescription}
-                           placeholder="Job Description"
-                           className="formField"
-                           onChange={event => {setJobDescription(event.target.value)}}
-                    />
-                </label>
+
                 <label>resume:
                     <input type="text"
                            value={resume}
@@ -79,6 +75,9 @@ export default function EditApplicationSite(){
                         <option value="CLOSED">Close</option>
                         <option value="SUCCESS">success</option>
                     </select>
+                </label>
+                <label>ReminderTime:
+                    <input type={"datetime-local"} value={reminderTime} onChange={event=> setReminderTime(event.target.value)}/>
                 </label>
                 <button type={"submit"}>edit Application</button>
                 <button type={"reset"}>reset Form</button>
