@@ -12,10 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.Instant;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+
 import java.util.List;
 
 
@@ -89,32 +88,30 @@ private ApplicationRepo applicationRepo;
     @Test
     @DirtiesContext
     void updateApplication() throws Exception {
-        applicationRepo.save(new Application("test1","tester2","resune","cob", appliStatus.OPEN, null,LocalDate.of(2020,1,1)));
-        String updateApplication = """
+        applicationRepo.save(new Application("test1","tester2","resune","cob", appliStatus.OPEN, null,LocalDate.of(2020,1,1)))
+                ;
+        mockMvc.perform(put("/api/application/"+"test1").contentType(MediaType.APPLICATION_JSON)
+                .content("""
                 {
                  "jobOfferID": "tester2",
                  "resume": "resume",
                  "coverLetter": "coverletter",
                  "appliStatus": "IN_PROGRESS",
-                 "reminderTime" null
+                 "reminderTime": null
                  }
-                """
-                ;
-        mockMvc.perform(put("/api/application/"+"test1").contentType(MediaType.APPLICATION_JSON)
-                .content(updateApplication)).andExpect(status().isOk()).andExpect(content().json("""
-{"id": "test",
+                """)).andExpect(status().isOk()).andExpect(content().json("""
+{"id": "test1",
 "jobOfferID": "tester2",
 "resume": "resume",
 "coverLetter": "coverletter",
 "appliStatus": "IN_PROGRESS",
 "reminderTime": null,
-"dateOfCreation": "2020-01-01",       }
+"dateOfCreation": "2020-01-01"}
 """));
     }
     @DirtiesContext
     @Test
     void expectSuccessfulPost() throws Exception {
-        LocalDate now = LocalDate.now();
         String actual = mockMvc.perform(
                         post("/api/application")
                                 .contentType(MediaType.APPLICATION_JSON)

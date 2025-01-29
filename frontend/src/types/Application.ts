@@ -1,8 +1,10 @@
 export type Application={
     id:string,
-    jobTitle:string,
-    jobDescription:string,
+    jobOfferID:string,
     resume:string,
     coverLetter:string,
-    appliStatus:string
+    appliStatus:string,
+    reminderTime:string,
+    dateOfCreation:string
+
 }

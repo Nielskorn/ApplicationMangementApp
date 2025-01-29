@@ -13,8 +13,8 @@ export default function JobApplicationCard({application}: Readonly<jobApplicatio
 
 
     return(
-        <div onClick={navigateToDetailspage}>
-            <h2>{application.jobTitle}</h2>
+        <div onClick={navigateToDetailspage} onKeyDown={navigateToDetailspage}>
+            <h2>{application.jobOfferID}</h2>
             <p>{"Status="+application.appliStatus}</p>
         </div>
     )
