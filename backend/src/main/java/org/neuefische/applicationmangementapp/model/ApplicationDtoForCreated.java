@@ -1,4 +1,9 @@
 package org.neuefische.applicationmangementapp.model;
 
-public record ApplicationDtoForCreated(String jobTitle, String jobDescription, String resume, String coverLetter) {
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+public record ApplicationDtoForCreated(String jobOfferID, String resume, String coverLetter, LocalDateTime reminder) {
 }

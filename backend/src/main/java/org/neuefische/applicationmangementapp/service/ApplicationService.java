@@ -1,6 +1,5 @@
 package org.neuefische.applicationmangementapp.service;
 
-
 import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 
@@ -11,7 +10,10 @@ import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ApplicationService {
 
@@ -22,15 +24,18 @@ public class ApplicationService {
     }
 
     public Application addApplication(ApplicationDtoForCreated applicationDto) {
-        Application application=new Application(IdService.getId(),applicationDto.jobTitle(),applicationDto.jobDescription(),applicationDto.resume(),applicationDto.coverLetter(), appliStatus.OPEN);
+        Application application=new Application(IdService.getId(),applicationDto.jobOfferID(),applicationDto.resume(),applicationDto.coverLetter(), appliStatus.OPEN,applicationDto.reminder(), LocalDate.now());
      return    applicationRepo.save(application);
     }
 
     public Application updateApplication(String id, ApplicationDtoForEdit applicationDto) throws NoSuchId {
-        if (applicationRepo.findById(id).isEmpty()){
+        System.out.println("entertSWervice");
+       Optional<Application> Oapplication= applicationRepo.findById(id);
+
+        if (Oapplication.isEmpty()){
             throw new NoSuchId("no such id: "+id );
         }else{
-            Application application=new Application(id,applicationDto.jobTitle(),applicationDto.jobDescription(),applicationDto.resume(),applicationDto.coverLetter(), applicationDto.appliStatus());
+            Application application=new Application(id,applicationDto.jobOfferId(),applicationDto.resume(),applicationDto.coverLetter(), applicationDto.appliStatus(),applicationDto.reminderTime(),Oapplication.get().dateOfCreation());
             return    applicationRepo.save(application);
         }
 
@@ -48,6 +53,7 @@ public class ApplicationService {
       if (applicationRepo.findById(id).isEmpty()){
           throw new NoSuchId("no such id: "+id);
       }else{
-        return  applicationRepo.findById(id).get();}
+        return  applicationRepo.findById(id).get();
+    }
     }
 }
