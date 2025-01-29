@@ -21,12 +21,17 @@ function App() {
 
     </nav>
 </header>
+        <main className="container">
         <Routes>
             <Route path="/application/:id" element={<Applicationdetails/>} />
             <Route path="/"element={<HomePage/>}/>
             <Route path="/newApplication" element={<NewApplicationSite/>}/>
         <Route path="/editApplication/:id" element={<EditApplicationSite/>} />
         </Routes>
+        </main>
+        <footer>
+            <p>All rights reserved</p>
+        </footer>
     </>
   )
 }
