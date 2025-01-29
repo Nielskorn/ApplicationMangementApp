@@ -110,7 +110,7 @@ class JobOfferControllerTest {
     @DirtiesContext
     void createJobOffer() throws Exception {
      String actual=mockMvc.perform(post("/api/joboffer").contentType(MediaType.APPLICATION_JSON).content("""
-{            "id":"test",
+{
              "Url_companyLogo":"Utest",
              "companyName":"Utest",
              "location":"UtestL",
@@ -118,7 +118,7 @@ class JobOfferControllerTest {
              "jobDescription":"UtestD"}
 """)).andExpect(status().isOk()).andExpect(content().json("""
 {
-             "id":"test",
+             
              "Url_companyLogo":"Utest",
              "companyName":"Utest",
              "location":"UtestL",
