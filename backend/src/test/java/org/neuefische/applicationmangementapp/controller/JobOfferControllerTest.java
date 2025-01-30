@@ -107,6 +107,24 @@ class JobOfferControllerTest {
 
  }
  @Test
+ @DirtiesContext
+ void tryUpdateJobOfferByIdShoudFail() throws Exception {
+     String updatedOffer="""
+             {
+             "id":"test",
+             "Url_companyLogo":"Utest",
+             "companyName":"Utest",
+             "location":"UtestL",
+             "jobTitle":"UtestT",
+             "jobDescription":"UtestD"
+             }
+             """;
+     mockMvc.perform(put("/api/joboffer/"+"test").contentType(MediaType.APPLICATION_JSON).
+             content(updatedOffer)).andExpect(status().isNotFound()).andExpect(content().json("""
+{"message": "no such id: test"}
+"""));
+ }
+ @Test
     @DirtiesContext
     void createJobOffer() throws Exception {
      String actual=mockMvc.perform(post("/api/joboffer").contentType(MediaType.APPLICATION_JSON).content("""
@@ -129,5 +147,13 @@ class JobOfferControllerTest {
      JobOffer jobOffer=objectMapper.readValue(actual, JobOffer.class);
      assertThat(jobOffer.id()).isNotBlank();
  }
+    @Test
+    void getJobOfferByIDExpectedError() throws Exception {
+        mockMvc.perform(get("/api/joboffer/"+"test2")).andExpect(status().isNotFound()).andExpect(content().json(
+                """
+{"message": "no such id: test2"}
+"""
+        ));
+    }
 
 }

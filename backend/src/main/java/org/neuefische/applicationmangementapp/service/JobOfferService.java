@@ -33,14 +33,14 @@ final JobOfferRepo jobOfferRepo;
         if(jobOffer.isPresent()){
          return    jobOffer.get();
         }
-        else throw new NoSuchId("no such id"+id);
+        else throw new NoSuchId("no such id: "+id);
     }
     public JobOffer updateJobOffer(String id ,JobOffer jobOffer) throws NoSuchId {
         if(jobOfferRepo.existsById(id)){
             return jobOfferRepo.save(jobOffer);
         }
         else{
-            throw new NoSuchId("no such id"+id);
+            throw new NoSuchId("no such id: "+id);
         }
     }
 

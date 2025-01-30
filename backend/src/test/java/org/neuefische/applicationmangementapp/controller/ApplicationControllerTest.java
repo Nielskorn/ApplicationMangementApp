@@ -75,7 +75,15 @@ private ApplicationRepo applicationRepo;
         "appliStatus": "OPEN",
         "reminderTime": null,
        "dateOfCreation": "2025-02-20"       }
-        """
+       """
+        ));
+    }
+    @Test
+    void getApplicationByIDExpecedError() throws Exception {
+        mockMvc.perform(get("/api/application/"+"test2")).andExpect(status().isNotFound()).andExpect(content().json(
+                """
+{"message": "no such id: test2"}
+"""
         ));
     }
     @Test
@@ -107,6 +115,23 @@ private ApplicationRepo applicationRepo;
 "appliStatus": "IN_PROGRESS",
 "reminderTime": null,
 "dateOfCreation": "2020-01-01"}
+"""));
+    }
+    @Test
+    @DirtiesContext
+    void tryUpdateApplicationByIdShoudFail() throws Exception {
+        String updatedApplication="""
+             {
+                 "jobOfferID": "tester2",
+                 "resume": "resume",
+                 "coverLetter": "coverletter",
+                 "appliStatus": "IN_PROGRESS",
+                 "reminderTime": null
+                 }
+             """;
+        mockMvc.perform(put("/api/joboffer/"+"test").contentType(MediaType.APPLICATION_JSON).
+                content(updatedApplication)).andExpect(status().isNotFound()).andExpect(content().json("""
+{"message": "no such id: test"}
 """));
     }
     @DirtiesContext
