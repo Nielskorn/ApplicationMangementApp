@@ -10,6 +10,7 @@ export default function EditJobOfferPage(){
     const [location,setLocation]=useState<string>("");
     const [jobTitle,setJobTitle]=useState<string>("");
     const [jobDescription,setJobDescription]=useState<string>("");
+    const [linkJobAd, setLinkJobAd]=useState<string>("");
     function fetchJob(){
         axios.get<JobOffer>(`/api/joboffer/${id}`).
         then((response)=>{
@@ -18,6 +19,7 @@ export default function EditJobOfferPage(){
             setLocation(response.data.location);
             setUrl_companyLogo(response.data.Url_companyLogo)
             setCompanyName(response.data.companyName)
+            setLinkJobAd(response.data.LinkJobAd)
         })
     }
     useEffect(() => {
@@ -27,7 +29,7 @@ export default function EditJobOfferPage(){
         event.preventDefault();
         axios.put("/api/joboffer/"+id,
             { Url_companyLogo: url_companyLogo, companyName:companyName,
-                location:location, jobTitle: jobTitle, jobDescription: jobDescription
+                location:location, jobTitle: jobTitle, jobDescription: jobDescription,LinkJobAd:linkJobAd
         }).then().catch(error=>console.error(error))
         OnReset()
     }
@@ -37,6 +39,7 @@ export default function EditJobOfferPage(){
         setCompanyName("")
         setJobTitle("")
         setJobDescription("")
+        setLinkJobAd("")
     }
     return(<div>
         <form className="editForm" onSubmit={OnSumit}>
@@ -71,7 +74,14 @@ export default function EditJobOfferPage(){
             <label>job Description:
                 {/*<input type={"text"} value={jobDescription} placeholder="jobDescription"
             onChange={event =>setJobDescription(event.target.value)}/>*/}
-                <textarea name="textareaJobDesc" rows={4} cols={40} onChange={event =>setJobDescription(event.target.value)} />
+                <textarea name="textareaJobDesc" rows={4} cols={40}  value={jobDescription} onChange={event =>setJobDescription(event.target.value)} />
+            </label>
+            <label>Job ad link:
+                <input type={"text"}
+                       value={linkJobAd}
+                       placeholder="job ad link"
+                       onChange={event =>setLinkJobAd(event.target.value)}
+                />
             </label>
             <button type={"submit"}>Save Changes</button>
             <button type={"reset"}>reset Form</button>

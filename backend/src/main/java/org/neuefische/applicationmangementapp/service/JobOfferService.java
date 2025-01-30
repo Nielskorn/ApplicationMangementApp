@@ -20,7 +20,7 @@ final JobOfferRepo jobOfferRepo;
     public JobOffer createJobOffer(JobOfferDto jobOfferDto) {
         JobOffer jobOffer=new JobOffer(IdService.getId(),jobOfferDto.Url_companyLogo(),
                 jobOfferDto.companyName(),jobOfferDto.location(),jobOfferDto.jobTitle(),
-                jobOfferDto.jobDescription());
+                jobOfferDto.jobDescription(), jobOfferDto.LinkJobAd());
         return jobOfferRepo.save(jobOffer);
     }
 
@@ -35,8 +35,10 @@ final JobOfferRepo jobOfferRepo;
         }
         else throw new NoSuchId("no such id: "+id);
     }
-    public JobOffer updateJobOffer(String id ,JobOffer jobOffer) throws NoSuchId {
-        if(jobOfferRepo.existsById(id)){
+    public JobOffer updateJobOffer(String id ,JobOfferDto jobOfferDto) throws NoSuchId {
+       Optional<JobOffer>oJobOffer= jobOfferRepo.findById(id);
+        if(oJobOffer.isPresent()){
+            JobOffer jobOffer=new JobOffer(id,jobOfferDto.Url_companyLogo(),jobOfferDto.companyName(), jobOfferDto.location(), jobOfferDto.jobTitle(), jobOfferDto.jobDescription(), jobOfferDto.LinkJobAd() );
             return jobOfferRepo.save(jobOffer);
         }
         else{

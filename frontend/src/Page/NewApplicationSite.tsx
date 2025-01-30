@@ -1,9 +1,11 @@
 import axios from "axios";
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 
 
 export default function NewApplicationSite(){
-   const [jobOfferID,setJobOfferID]=useState<string>("");
+   const {id}=useParams<{id:string}>();
+    const [jobOfferID,setJobOfferID]=useState<string>("");
 
    const [resume,setResume]=useState<string>("");
    const [coverLetter,setCoverLetter]=useState<string>("");
@@ -19,6 +21,11 @@ export default function NewApplicationSite(){
         {console.log(error)})
         OnReset()
     }
+
+    useEffect(() => {
+        if(id){
+        setJobOfferID(id)}
+    }, []);
     function OnReset(){
         setJobOfferID("")
         setCoverLetter("")
