@@ -69,8 +69,9 @@ export default function EditJobOfferPage(){
             onChange={event => setJobTitle(event.target.value) }/>
             </label>
             <label>job Description:
-            <input type={"text"} value={jobDescription} placeholder="jobDescription"
-            onChange={event =>setJobDescription(event.target.value)}/>
+                {/*<input type={"text"} value={jobDescription} placeholder="jobDescription"
+            onChange={event =>setJobDescription(event.target.value)}/>*/}
+                <textarea name="textareaJobDesc" rows={4} cols={40} onChange={event =>setJobDescription(event.target.value)} />
             </label>
             <button type={"submit"}>Save Changes</button>
             <button type={"reset"}>reset Form</button>

@@ -45,12 +45,15 @@ function OnReset(){
                        onChange={(event)=>
                            setJobTitle(event.target.value)}
                 />
-                <input type={"text"}
+                {/*<input type={"text"}
                        value={jobDescription}
                        placeholder="jobDescription"
                        onChange={(event)=>
                            setJobDescription(event.target.value)}
-                />
+                />*/}
+                <label>JobDescription:
+                <textarea name="textareaJobDesc" rows={4}cols={4} onChange={event =>  setJobDescription(event.target.value)}/>
+                </label>
                 <button type={"submit"}>create Job offer</button>
                 <button type={"reset"}>reset Form</button>
             </form>
