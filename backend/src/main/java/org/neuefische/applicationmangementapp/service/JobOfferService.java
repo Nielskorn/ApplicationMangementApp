@@ -1,6 +1,6 @@
 package org.neuefische.applicationmangementapp.service;
 
-import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
+import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.JobOffer;
 import org.neuefische.applicationmangementapp.model.JobOfferDto;
 import org.neuefische.applicationmangementapp.repo.JobOfferRepo;
@@ -8,10 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class JobOfferService {
-    final JobOfferRepo jobOfferRepo;
+final JobOfferRepo jobOfferRepo;
 
 
     public JobOfferService(JobOfferRepo jobOfferRepo) {
@@ -19,9 +18,9 @@ public class JobOfferService {
     }
 
     public JobOffer createJobOffer(JobOfferDto jobOfferDto) {
-        JobOffer jobOffer = new JobOffer(IdService.getId(), jobOfferDto.Url_companyLogo(),
-                jobOfferDto.companyName(), jobOfferDto.location(), jobOfferDto.jobTitle(),
-                jobOfferDto.jobDescription());
+        JobOffer jobOffer=new JobOffer(IdService.getId(),jobOfferDto.Url_companyLogo(),
+                jobOfferDto.companyName(),jobOfferDto.location(),jobOfferDto.jobTitle(),
+                jobOfferDto.jobDescription(), jobOfferDto.LinkJobAd());
         return jobOfferRepo.save(jobOffer);
     }
 
@@ -31,16 +30,19 @@ public class JobOfferService {
 
     public JobOffer getJobOfferById(String id) throws NoSuchId {
         Optional<JobOffer> jobOffer = jobOfferRepo.findById(id);
-        if (jobOffer.isPresent()) {
-            return jobOffer.get();
-        } else throw new NoSuchId("no such id: " + id);
+        if(jobOffer.isPresent()){
+         return    jobOffer.get();
+        }
+        else throw new NoSuchId("no such id: "+id);
     }
-
-    public JobOffer updateJobOffer(String id, JobOffer jobOffer) throws NoSuchId {
-        if (jobOfferRepo.existsById(id)) {
+    public JobOffer updateJobOffer(String id ,JobOfferDto jobOfferDto) throws NoSuchId {
+       Optional<JobOffer>oJobOffer= jobOfferRepo.findById(id);
+        if(oJobOffer.isPresent()){
+            JobOffer jobOffer=new JobOffer(id,jobOfferDto.Url_companyLogo(),jobOfferDto.companyName(), jobOfferDto.location(), jobOfferDto.jobTitle(), jobOfferDto.jobDescription(), jobOfferDto.LinkJobAd() );
             return jobOfferRepo.save(jobOffer);
-        } else {
-            throw new NoSuchId("no such id: " + id);
+        }
+        else{
+            throw new NoSuchId("no such id: "+id);
         }
     }
 

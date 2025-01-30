@@ -7,12 +7,14 @@ export default function NewJobOfferPage(){
     const [jobTitle,setJobTitle]=useState<string>("")
     const [jobDescription,setJobDescription]=useState<string>("")
     const [companyLogoUrl,setCompanyLogoUrl]=useState<string>("")
+    const [LinkJobAd,setLinkJobAd]=useState<string>()
 function OnReset(){
         setCompanyName("")
     setJobTitle("")
     setJobDescription("")
     setLocation("")
     setCompanyLogoUrl("")
+    setLinkJobAd("")
 
 }
     function OnSubmit(event:FormEvent<HTMLFormElement>){
@@ -20,7 +22,8 @@ function OnReset(){
         axios.post("api/joboffer",{
             Url_companyLogo:companyLogoUrl
             ,companyName: companyName,
-            location: location, jobTitle: jobTitle, jobDescription: jobDescription}).then().catch(error=>{console.error(error)})
+            location: location, jobTitle: jobTitle, jobDescription: jobDescription, LinkJobAd: LinkJobAd
+        }).then().catch(error=>{console.error(error)})
         OnReset()
     }
     return(
@@ -44,6 +47,12 @@ function OnReset(){
                        placeholder="jobTitle"
                        onChange={(event)=>
                            setJobTitle(event.target.value)}
+                />
+                <input type={"text"}
+                value={LinkJobAd}
+                placeholder="link to job ad"
+                onChange={(event)=>
+                    setLinkJobAd(event.target.value)}
                 />
                 {/*<input type={"text"}
                        value={jobDescription}

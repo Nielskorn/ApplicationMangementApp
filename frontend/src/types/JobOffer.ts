@@ -5,5 +5,6 @@ export type JobOffer={
     location:string,
     jobTitle:string,
     jobDescription:string
+    LinkJobAd: string
 
 }
