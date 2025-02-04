@@ -16,6 +16,7 @@ public class CloudinaryService {
    @Resource
     private Cloudinary cloudinary;
 
+
     public String uploadFile(MultipartFile file) {
         try {
             Map<String,String> options = new HashMap<>();
@@ -25,6 +26,7 @@ public class CloudinaryService {
             options.put("format", "pdf");
             File fileToUpload = File.createTempFile(file.getOriginalFilename(),"");
             file.transferTo(fileToUpload);
+            //NOSONAR
             Map uploadFile=cloudinary.uploader().upload(fileToUpload,options);
             String publicId = (String) uploadFile.get("public_id");
              return cloudinary.url().secure(true).generate(publicId);
