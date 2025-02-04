@@ -7,7 +7,7 @@ export default function NewJobOfferPage(){
     const [jobTitle,setJobTitle]=useState<string>("")
     const [jobDescription,setJobDescription]=useState<string>("")
     const [companyLogoUrl,setCompanyLogoUrl]=useState<string>("")
-    const [LinkJobAd,setLinkJobAd]=useState<string>()
+    const [linkJobAd,setLinkJobAd]=useState<string>()
 function OnReset(){
         setCompanyName("")
     setJobTitle("")
@@ -22,7 +22,7 @@ function OnReset(){
         axios.post("api/joboffer",{
             Url_companyLogo:companyLogoUrl
             ,companyName: companyName,
-            location: location, jobTitle: jobTitle, jobDescription: jobDescription, LinkJobAd: LinkJobAd
+            location: location, jobTitle: jobTitle, jobDescription: jobDescription, LinkJobAd: linkJobAd
         }).then().catch(error=>{console.error(error)})
         OnReset()
     }
@@ -49,17 +49,12 @@ function OnReset(){
                            setJobTitle(event.target.value)}
                 />
                 <input type={"text"}
-                value={LinkJobAd}
+                value={linkJobAd}
                 placeholder="link to job ad"
                 onChange={(event)=>
                     setLinkJobAd(event.target.value)}
                 />
-                {/*<input type={"text"}
-                       value={jobDescription}
-                       placeholder="jobDescription"
-                       onChange={(event)=>
-                           setJobDescription(event.target.value)}
-                />*/}
+
                 <label>JobDescription:
                 <textarea name="textareaJobDesc" rows={4}cols={4} onChange={event =>  setJobDescription(event.target.value)}/>
                 </label>

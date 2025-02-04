@@ -1,5 +1,5 @@
 import {Application} from "../types/Application.ts";
-import JobApplicationCard from "./JobApplicationCard.tsx";
+import ApplicationCard from "./ApplicationCard.tsx";
 
 
 type ApplicationGalleryProps={
@@ -8,8 +8,8 @@ type ApplicationGalleryProps={
 
 }
 export default function ApplicationGallery({applications}: Readonly<ApplicationGalleryProps>){
-    const applicationCards=applications.map((application:Application)=>(<div className="applicationCard" key={application.id}>
-        <JobApplicationCard application={application}/>
+    const applicationCards=applications.map((application:Application)=>(<div  key={application.id}>
+        <ApplicationCard application={application}/>
 
     </div>));
 

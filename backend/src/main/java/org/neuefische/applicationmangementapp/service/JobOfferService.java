@@ -35,6 +35,9 @@ final JobOfferRepo jobOfferRepo;
         }
         else throw new NoSuchId("no such id: "+id);
     }
+    public Optional<JobOffer>getOJobOfferById(String id){
+        return jobOfferRepo.findById(id);
+    }
     public JobOffer updateJobOffer(String id ,JobOfferDto jobOfferDto) throws NoSuchId {
        Optional<JobOffer>oJobOffer= jobOfferRepo.findById(id);
         if(oJobOffer.isPresent()){

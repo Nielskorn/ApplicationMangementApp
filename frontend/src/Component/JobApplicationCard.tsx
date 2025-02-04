@@ -1,21 +1,18 @@
-import {Application} from "../types/Application.ts";
-import {useNavigate} from "react-router-dom";
+
+import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
 
 type jobApplicationCardProps={
-    application:Application;
+    JobApplication:JobApplicationTracker;
 }
-
-export default function JobApplicationCard({application}: Readonly<jobApplicationCardProps>){
-    const navigate=useNavigate();
-    function navigateToDetailspage() {
-        navigate("/application/" + application.id);
-    }
-
-
+export default function JobApplicationCard({JobApplication}:Readonly<jobApplicationCardProps>){
     return(
-        <div onClick={navigateToDetailspage} onKeyDown={navigateToDetailspage}>
-            <h2>{application.jobOfferID}</h2>
-            <p>{"Status="+application.appliStatus}</p>
+        <div>
+        <h2>
+            {JobApplication.jobOffer.jobTitle}
+        </h2>
+        <h3>By {JobApplication.jobOffer.companyName}
+        </h3>
+            <p>Next Reminder Date: {JobApplication.application.reminderTime}</p>
         </div>
     )
 }

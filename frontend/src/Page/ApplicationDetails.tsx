@@ -1,9 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Application} from "../types/Application.ts";
 import StatusIndicator from "../Component/StatusIndicator.tsx";
-import {JobOffer} from "../types/JobOffer.ts";
+import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
 
 
 
@@ -20,31 +19,27 @@ export default function Applicationdetails(){
     const [reminderTime,setReminderTime]=useState<string>()
     const [dateOfCreation,setDateOfCreation]=useState<string>();
 
-    function fetchJobOffer(jobofferId:string){
-        axios.get<JobOffer>(`/api/joboffer/${jobofferId}`).then(
-            (response)=>{
-                setCompanyName(response.data.companyName)
-                setJobTitle (response.data.jobTitle)
-            }
-        )
+    function fetchJobApplication(){
+        axios.get<JobApplicationTracker>(`/api/JobApplication/`+id).then((response)=>{
+            setResume(response.data.application.resume)
+            setCoverLetter(response.data.application.coverLetter)
+            setStatus(response.data.application.appliStatus)
+            setReminderTime(response.data.application.reminderTime)
+            setDateOfCreation(response.data.application.dateOfCreation)
+            setCompanyName(response.data.jobOffer.companyName)
+            setJobTitle (response.data.jobOffer.jobTitle)
+
+
+        })
     }
 
 
-   function fetchApplication() {
-        let jobOId:string="empty";
-        axios.get<Application>(`/api/application/${id}`).then((response) => {
 
-            jobOId=response.data.jobOfferID
-            setResume(response.data.resume)
-            setCoverLetter(response.data.coverLetter)
-            setStatus(response.data.appliStatus)
-            setReminderTime(response.data.reminderTime)
-            setDateOfCreation(response.data.dateOfCreation)
-        }).finally(()=>fetchJobOffer(jobOId.toString()));
-    }
+
+
     useEffect(()=>{
 
-        fetchApplication();
+        fetchJobApplication();
 
 
 

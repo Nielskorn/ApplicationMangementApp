@@ -45,3 +45,26 @@
 .read-the-docs {
   color: #888;
 }
+.JobapplicationCard{
+  border-radius: 20px;
+  border: solid white;
+  padding: 5px;
+
+}
+.applicationCard{
+  margin: 5px;
+  border-radius: 20px;
+  border: solid white;
+}
+.jobOfferCard{
+  margin: 5px;
+  padding: 5px;
+  border-radius: 20px;
+  border: solid white;
+}
+.ApplicationDash{
+  border-radius: 20px;
+  border: solid white;
+  padding: 10px;
+  margin: 10px;
+}

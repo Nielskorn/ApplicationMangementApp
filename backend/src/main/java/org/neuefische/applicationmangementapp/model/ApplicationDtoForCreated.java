@@ -3,6 +3,6 @@ package org.neuefische.applicationmangementapp.model;
 import java.time.LocalDateTime;
 
 
-public record ApplicationDtoForCreated(String jobOfferID, String resume, String coverLetter,
+public record ApplicationDtoForCreated(String jobOfferID, String coverLetter,
                                        LocalDateTime reminderTime) {
 }
