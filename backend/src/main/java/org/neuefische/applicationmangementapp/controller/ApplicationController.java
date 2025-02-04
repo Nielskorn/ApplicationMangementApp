@@ -7,7 +7,11 @@ import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;
 import org.neuefische.applicationmangementapp.service.ApplicationService;
+
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 @RequestMapping("/api/application")
@@ -19,16 +23,17 @@ public class ApplicationController {
         this.applicationService = applicationService;
     }
 
-    @PostMapping
-    public Application createApplication(@RequestBody ApplicationDtoForCreated application) {
-        return applicationService.addApplication(application);
+    @PostMapping()
+    //consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    public Application createApplication(@RequestPart("resume")  MultipartFile resume, @RequestPart (required = false) MultipartFile coverletter, @RequestPart("meta") ApplicationDtoForCreated application) {
+        return applicationService.addApplication(application,resume,coverletter);
     }
     @PutMapping("/{id}")
-    public Application updateApplication(@PathVariable String id, @RequestBody ApplicationDtoForEdit application) throws Exception {
+    public Application updateApplication(@PathVariable String id, @RequestBody ApplicationDtoForEdit application) throws NoSuchId {
         return applicationService.updateApplication(id,application);
     }
     @DeleteMapping("/{id}")
-    public void deleteApplication(@PathVariable String id) {
+    public void deleteApplication(@PathVariable String id) throws NoSuchId, IOException {
         applicationService.deleteApplicationById(id);
     }
 
