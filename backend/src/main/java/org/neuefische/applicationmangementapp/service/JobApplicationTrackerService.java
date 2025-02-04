@@ -1,6 +1,7 @@
 package org.neuefische.applicationmangementapp.service;
 
-import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
+
+import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.JobApplicationTracker;
 import org.neuefische.applicationmangementapp.model.JobOffer;

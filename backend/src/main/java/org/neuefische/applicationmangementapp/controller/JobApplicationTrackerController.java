@@ -1,6 +1,6 @@
 package org.neuefische.applicationmangementapp.controller;
 
-import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
+import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.JobApplicationTracker;
 import org.neuefische.applicationmangementapp.service.JobApplicationTrackerService;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +15,13 @@ public class JobApplicationTrackerController {
     public JobApplicationTrackerController(JobApplicationTrackerService jobApplicationTrackerService) {
         this.jobApplicationTrackerService = jobApplicationTrackerService;
     }
+
     @GetMapping
     //returns All jobApplicationsWithA Offer
-    public List<JobApplicationTracker> getJobApplications(){
-      return  jobApplicationTrackerService.getJobApplications();
+    public List<JobApplicationTracker> getJobApplications() {
+        return jobApplicationTrackerService.getJobApplications();
     }
+
     @GetMapping("/{id}")
     public JobApplicationTracker getJobApplication(@PathVariable String id) throws NoSuchId {
         return jobApplicationTrackerService.getJobApplicationByApplicationId(id);
