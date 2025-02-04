@@ -1,28 +1,31 @@
 package org.neuefische.applicationmangementapp.controller;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.neuefische.applicationmangementapp.model.Application;
+import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.appliStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
-import org.neuefische.applicationmangementapp.service.ApplicationService;
 import org.neuefische.applicationmangementapp.service.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 import java.util.List;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,9 +40,8 @@ private ApplicationRepo applicationRepo;
     @Autowired
     ObjectMapper objectMapper;
     @Mock
-    CloudinaryService cloudinaryService;
-    @InjectMocks
-    ApplicationService applicationService;
+    CloudinaryService mockCloudinaryService;
+
 
 
     @Test
@@ -146,21 +148,21 @@ private ApplicationRepo applicationRepo;
     @DirtiesContext
     @Test
     void expectSuccessfulPost() throws Exception {
-        String actual = mockMvc.perform(
-                        post("/api/application")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("""
 
-                                        {"jobOfferID":"1a","resume": "Omar", "coverLetter": "omar","reminderTime": null}
-                                    """)
+       ApplicationDtoForCreated metadata =new ApplicationDtoForCreated("1a",null);
+       MockMultipartFile meta=new MockMultipartFile("meta","metadata",MediaType.APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(metadata).getBytes(StandardCharsets.UTF_8));
+
+        MockMultipartFile file = new MockMultipartFile(
+                "resume", "test.txt", "text/plain", "Hello, file content".getBytes()
+        );
+        when(mockCloudinaryService.uploadFile(file)).thenReturn("succuss");
+        String actual = mockMvc.perform(
+                        multipart("/api/application").file(meta).file(file)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                          {
-                       "jobOfferID":"1a",
-                       "resume": "Omar",
-                       "coverLetter": "omar"
-                       //"reminderTime":null,
+                       "jobOfferID":"1a"
                     }
                     """))
                 .andReturn()
