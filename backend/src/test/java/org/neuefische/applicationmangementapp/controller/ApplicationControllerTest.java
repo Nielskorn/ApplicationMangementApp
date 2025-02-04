@@ -2,9 +2,13 @@ package org.neuefische.applicationmangementapp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.appliStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
+import org.neuefische.applicationmangementapp.service.ApplicationService;
+import org.neuefische.applicationmangementapp.service.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +39,11 @@ class ApplicationControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+    @Mock
+    CloudinaryService cloudinaryService;
+    @InjectMocks
+    ApplicationService applicationService;
+
 
     @Test
     @DirtiesContext
