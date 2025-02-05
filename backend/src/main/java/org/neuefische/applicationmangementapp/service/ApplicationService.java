@@ -28,10 +28,10 @@ public class ApplicationService {
         Application application;
         if(coverLetter !=null){
             String cloudinaryCoverletterUrl=cloudinaryService.uploadFile(coverLetter);
-            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,cloudinaryCoverletterUrl, applicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
+            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,cloudinaryCoverletterUrl, ApplicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
         }
       else {
-            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,null, applicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
+            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,null, ApplicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
         }
 
      return    applicationRepo.save(application);
@@ -44,7 +44,7 @@ public class ApplicationService {
         if (oApplication.isEmpty()){
             throw new NoSuchId("no such id: "+id );
         }else{
-            Application application=new Application(id,applicationDto.jobOfferID(),applicationDto.resume(),applicationDto.coverLetter(), applicationDto.applicationStatus(),applicationDto.reminderTime(),oApplication.get().dateOfCreation());
+            Application application=new Application(id,applicationDto.jobOfferID(),applicationDto.resume(),applicationDto.coverLetter(), applicationDto.applicationStatus(),applicationDto.reminderTime(), oApplication.get().dateOfCreation());
             return    applicationRepo.save(application);
         }
 

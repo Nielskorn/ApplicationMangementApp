@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
-import org.neuefische.applicationmangementapp.model.applicationStatus;
+import org.neuefische.applicationmangementapp.model.ApplicationStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
 import org.neuefische.applicationmangementapp.service.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +52,8 @@ private ApplicationRepo applicationRepo ;
     @DirtiesContext
     void getAllApplications() throws Exception {
         applicationRepo.saveAll(List.of(
-                new Application("test","tester","desc","resume", applicationStatus.OPEN,null,LocalDate.now()),
-                new Application("test2","tester2","desc","resume", applicationStatus.OPEN,null,LocalDate.now())
+                new Application("test","tester","desc","resume", ApplicationStatus.OPEN,null,LocalDate.now()),
+                new Application("test2","tester2","desc","resume", ApplicationStatus.OPEN,null,LocalDate.now())
 
         ));
         mockMvc.perform(get("/api/application")).andExpect(status().isOk()).andExpect(content().json(
@@ -79,8 +79,8 @@ private ApplicationRepo applicationRepo ;
     @Test
     @DirtiesContext
     void getApplicationById() throws Exception {
-        applicationRepo.saveAll(List.of(new Application("test","tester","resume","cl", applicationStatus.OPEN, null, LocalDate.of(2025,2,20)),
-                new Application("test2","tester2","desc","resume", applicationStatus.OPEN,null,LocalDate.of(2025,5,6))));
+        applicationRepo.saveAll(List.of(new Application("test","tester","resume","cl", ApplicationStatus.OPEN, null, LocalDate.of(2025,2,20)),
+                new Application("test2","tester2","desc","resume", ApplicationStatus.OPEN,null,LocalDate.of(2025,5,6))));
         mockMvc.perform(get("/api/application/"+"test")).andExpect(status().isOk()).andExpect(content().json(
         """
         {"id": "test",
@@ -104,7 +104,7 @@ private ApplicationRepo applicationRepo ;
     @Test
     @DirtiesContext
     void deleteApplicationById() throws Exception {
-        applicationRepo.save(new Application("fakeId","testerId","resume","cl", applicationStatus.OPEN, null,LocalDate.now()));
+        applicationRepo.save(new Application("fakeId","testerId","resume","cl", ApplicationStatus.OPEN, null,LocalDate.now()));
         mockMvc.perform(delete("/api/application/"+"fakeId")).andExpect(status().isOk());
 
     }
@@ -119,7 +119,7 @@ private ApplicationRepo applicationRepo ;
     @Test
     @DirtiesContext
     void updateApplication() throws Exception {
-        applicationRepo.save(new Application("test1","tester2","resume2","cob", applicationStatus.OPEN, null,LocalDate.of(2020,1,1)))
+        applicationRepo.save(new Application("test1","tester2","resume2","cob", ApplicationStatus.OPEN, null,LocalDate.of(2020,1,1)))
                 ;
         mockMvc.perform(put("/api/application/"+"test1").contentType(MediaType.APPLICATION_JSON)
                 .content("""

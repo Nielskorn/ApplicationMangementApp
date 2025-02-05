@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
-public record Application(@Id String id, String jobOfferID, String resume, String coverLetter, applicationStatus applicationStatus, LocalDateTime reminderTime,
+public record Application(@Id String id, String jobOfferID, String resume, String coverLetter, ApplicationStatus applicationStatus, LocalDateTime reminderTime,
                           LocalDate dateOfCreation) {}

@@ -3,7 +3,7 @@ export type Application={
     jobOfferID:string,
     resume:string,
     coverLetter:string,
-    appliStatus:string,
+    applicationStatus:string,
     reminderTime:string,
     dateOfCreation:string
 
