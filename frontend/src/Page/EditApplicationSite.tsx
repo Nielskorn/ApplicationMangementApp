@@ -9,7 +9,7 @@ export default function EditApplicationSite(){
 
     const [resume,setResume]=useState<string>("");
     const [coverLetter,setCoverLetter]=useState<string>("");
-    const [appliStatus,setAppliStatus]=useState<string>("");
+    const [applicationStatus,setApplicationStatus]=useState<string>("");
     const [reminderTime,setReminderTime]=useState<string>("")
 
     useEffect(()=>{
@@ -18,7 +18,7 @@ export default function EditApplicationSite(){
             setJobOfferID(response.data.jobOfferID);
             setResume(response.data.resume)
             setCoverLetter(response.data.coverLetter)
-            setAppliStatus(response.data.appliStatus)
+            setApplicationStatus(response.data.appliStatus)
             setReminderTime(response.data.dateOfCreation)
 
         };
@@ -27,7 +27,7 @@ export default function EditApplicationSite(){
     function OnSubmit(event:FormEvent<HTMLFormElement>){
         event.preventDefault();
         axios.put("/api/application/"+id,{ jobOfferID:jobOfferID,resume:resume,
-            coverLetter: coverLetter,appliStatus:appliStatus, reminderTime: reminderTime
+            coverLetter: coverLetter,applicationStatus:applicationStatus, reminderTime: reminderTime
         }).then().catch(error=>{console.log(error)})
         OnReset()
     }
@@ -35,7 +35,7 @@ export default function EditApplicationSite(){
         setJobOfferID("")
         setCoverLetter("")
         setResume("")
-        setAppliStatus("OPEN")
+        setApplicationStatus("OPEN")
         setReminderTime("")
     }
     return(
@@ -69,7 +69,7 @@ export default function EditApplicationSite(){
                     />
                 </label>
                 <label> Status:
-                    <select onChange={event => setAppliStatus(event.target.value)}>
+                    <select onChange={event => setApplicationStatus(event.target.value)}>
                         <option value="OPEN">Open</option>
                         <option value="IN_PROGRESS">in Progress</option>
                         <option value="CLOSED">Close</option>

@@ -4,8 +4,9 @@ import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;
-import org.neuefische.applicationmangementapp.model.applicationStatus;
+import org.neuefische.applicationmangementapp.model.ApplicationStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,9 +32,9 @@ public class ApplicationService {
         Application application;
         if (coverLetter != null) {
             String cloudinaryCoverletterUrl = cloudinaryService.uploadFile(coverLetter);
-            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, cloudinaryCoverletterUrl, applicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
+            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, cloudinaryCoverletterUrl, ApplicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
         } else {
-            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, null, applicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
+            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, null, ApplicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
         }
 
         return applicationRepo.save(application);

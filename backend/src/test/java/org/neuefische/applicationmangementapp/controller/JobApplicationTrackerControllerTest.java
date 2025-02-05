@@ -3,8 +3,8 @@ package org.neuefische.applicationmangementapp.controller;
 import org.junit.jupiter.api.Test;
 import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
+import org.neuefische.applicationmangementapp.model.ApplicationStatus;
 import org.neuefische.applicationmangementapp.model.JobOffer;
-import org.neuefische.applicationmangementapp.model.applicationStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
 import org.neuefische.applicationmangementapp.repo.JobOfferRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ class JobApplicationTrackerControllerTest {
                         "testA",
                         "testJO",
                         "testCv", null,
-                        applicationStatus.OPEN, null,
+                        ApplicationStatus.OPEN, null,
                         LocalDate.of(2025, 10, 10))
         );
         jobOfferRepo.save(
@@ -86,7 +86,7 @@ class JobApplicationTrackerControllerTest {
     @Test
     @DirtiesContext
     void testGetJobApplicationTrackerById() throws Exception {
-        applicationRepo.save(new Application("testA", "testJo", "testCv", null, applicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
+        applicationRepo.save(new Application("testA", "testJo", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
         jobOfferRepo.save(new JobOffer("testJo", "logoT", "cTest", "testLane", "tester2", "testing2", "testlink2"));
         mockMvc.perform(get("/api/JobApplication/" + "testA")).
                 andExpect(status().isOk()).
@@ -120,7 +120,7 @@ class JobApplicationTrackerControllerTest {
     @Test
     @DirtiesContext
     void testTryGetJobApplicationTrackerByApplicationIdExpectThrowNoSuchId() throws Exception {
-        applicationRepo.save(new Application("testA", "testJo", "testCv", null, applicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
+        applicationRepo.save(new Application("testA", "testJo", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
         jobOfferRepo.save(new JobOffer("testJo", "logoT", "cTest", "testLane", "tester2", "testing2", "testlink2"));
         mockMvc.perform(get("/api/JobApplication/" + "testB")).
                 andExpect(status().isNotFound()).
@@ -135,12 +135,12 @@ class JobApplicationTrackerControllerTest {
                 new Application("testA",
                         "testJO",
                         "testCv", null,
-                        applicationStatus.OPEN, null,
+                        ApplicationStatus.OPEN, null,
                         LocalDate.of(2025, 10, 10))
                 , new Application("testB",
                         "noId",
                         "testCvB", null,
-                        applicationStatus.OPEN, null,
+                        ApplicationStatus.OPEN, null,
                         LocalDate.of(2025, 11, 11)))
         );
         jobOfferRepo.saveAll(List.of(new JobOffer("testJO",

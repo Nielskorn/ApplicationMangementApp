@@ -15,7 +15,7 @@ export default function ApplicationCard({application}: Readonly<jobApplicationCa
     return(
         <div className="applicationCard" onClick={navigateToDetailspage} onKeyDown={navigateToDetailspage}>
             <h2>{application.jobOfferID}</h2>
-            <p>{"Status="+application.appliStatus}</p>
+            <p>{"Status="+application.applicationStatus}</p>
         </div>
     )
 }
