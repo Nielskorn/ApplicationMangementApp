@@ -26,7 +26,6 @@ import java.util.List;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -47,8 +46,6 @@ class ApplicationControllerTest {
 
     @MockitoBean
     CloudinaryService mockCloudinaryService;
-
-
 
     @Test
     @DirtiesContext
