@@ -60,11 +60,14 @@ public class ApplicationService {
 
        if(multipyApplicationExistsIfTnisResume(application.resume())){
     applicationRepo.deleteById(id);
+
     }else {
            applicationRepo.deleteById(id);
            cloudinaryService.deleteFile(application.resume());
        }
-    }}
+       if(application.coverLetter()!=null){
+            cloudinaryService.deleteFile(application.coverLetter());
+    }}}
 
     public List<Application> getAllApplications() {
     return     applicationRepo.findAll();
