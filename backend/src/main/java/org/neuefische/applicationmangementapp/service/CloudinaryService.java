@@ -36,7 +36,7 @@ public class CloudinaryService {
 
 
           String removeUrl= url.replaceFirst("^.*?/upload/", "");
-          String removeVersion=removeUrl.replaceFirst("^v[0-9]+/", "");
+        String removeVersion = removeUrl.replaceFirst("^v\\d+/", "");
            cloudinary.uploader().destroy(removeVersion, ObjectUtils.asMap("resource_type", "raw"));
 
 
