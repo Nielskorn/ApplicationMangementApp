@@ -3,6 +3,7 @@ package org.neuefische.applicationmangementapp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.appliStatus;
@@ -26,6 +27,8 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -104,6 +107,14 @@ private ApplicationRepo applicationRepo ;
         applicationRepo.save(new Application("fakeid","testerId","resume","cl",appliStatus.OPEN, null,LocalDate.now()));
         mockMvc.perform(delete("/api/application/"+"fakeid")).andExpect(status().isOk());
 
+    }
+    @Test
+    @DirtiesContext
+    void deleteApplicationByIdExpecetThrowNoSuchId() throws Exception {
+        mockMvc.perform(delete("/api/application/"+"test2"))
+                .andExpect(status().isNotFound()).
+                andExpect(result -> assertInstanceOf(NoSuchId.class,result.getResolvedException())).
+                andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("no such id:")));
     }
     @Test
     @DirtiesContext
