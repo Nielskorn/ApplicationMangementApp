@@ -14,7 +14,7 @@ export default function JobDetailsPage(){
 
 
 function fetchJobDetais(){
-        axios.get<JobOffer>(`/api/joboffer/${id}`).then(
+        axios.get<JobOffer>(`/api/job-offer/${id}`).then(
             (response)=>
             {setJobTitle(response.data.jobTitle)
             setJobDesc(response.data.jobDescription)
@@ -29,7 +29,7 @@ function navigateToEdit() {
 
 }
 function deleteJob(){
-    axios.delete(`/api/joboffer/${id}`).then(()=>{alert("deleted Successfuly"); navigate("/jobOffer") })
+    axios.delete(`/api/job-offer/${id}`).then(()=>{alert("deleted Successfuly"); navigate("/jobOffer") })
 .catch(error=>console.error("error beim löschne"+error))
 }
     useEffect(() => {

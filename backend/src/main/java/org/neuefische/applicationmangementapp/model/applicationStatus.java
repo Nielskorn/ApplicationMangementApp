@@ -1,5 +1,5 @@
 package org.neuefische.applicationmangementapp.model;
 
-public enum appliStatus {
+public enum applicationStatus {
     OPEN,IN_PROGRESS,CLOSED,SUCCESS,
 }

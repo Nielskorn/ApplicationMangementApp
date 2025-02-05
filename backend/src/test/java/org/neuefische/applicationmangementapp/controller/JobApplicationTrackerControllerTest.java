@@ -3,7 +3,7 @@ package org.neuefische.applicationmangementapp.controller;
 import org.junit.jupiter.api.Test;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.JobOffer;
-import org.neuefische.applicationmangementapp.model.appliStatus;
+import org.neuefische.applicationmangementapp.model.applicationStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
 import org.neuefische.applicationmangementapp.repo.JobOfferRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         "testA",
                 "testJO",
                 "testCv",null,
-                appliStatus.OPEN,null,
+                applicationStatus.OPEN,null,
                 LocalDate.of(2025,10,10))
         );
                 jobOfferRepo.save(
@@ -67,7 +67,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                           "jobOfferID":"testJO",
                           "resume":"testCv",
                           "coverLetter": null,
-                                "appliStatus":"OPEN",
+                                "applicationStatus":"OPEN",
                                  "reminderTime": null,
                                  "dateOfCreation": "2025-10-10"
                          }
@@ -78,7 +78,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DirtiesContext
     void testGetJobApplicationTrackerById() throws Exception {
-        applicationRepo.save(new Application("testA","testJo","testCv",null,appliStatus.OPEN,null,LocalDate.of(2025,10,10)));
+        applicationRepo.save(new Application("testA","testJo","testCv",null, applicationStatus.OPEN,null,LocalDate.of(2025,10,10)));
         jobOfferRepo.save(new JobOffer("testJo","logoT","cTest","testLane","tester2","testing2","testlink2"));
         mockMvc.perform(get("/api/JobApplication/"+"testA")).
                 andExpect(status().isOk()).
@@ -100,7 +100,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                           "jobOfferID":"testJo",
                           "resume":"testCv",
                           "coverLetter": null,
-                                "appliStatus":"OPEN",
+                                "applicationStatus":"OPEN",
                                  "reminderTime": null,
                                  "dateOfCreation": "2025-10-10"
                          }
@@ -115,12 +115,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 new Application("testA",
                         "testJO",
                         "testCv",null,
-                        appliStatus.OPEN,null,
+                        applicationStatus.OPEN,null,
                         LocalDate.of(2025,10,10))
                 ,new Application("testB",
                         "noId",
                         "testCvB",null,
-                        appliStatus.OPEN,null,
+                        applicationStatus.OPEN,null,
                         LocalDate.of(2025,11,11)))
         );
         jobOfferRepo.saveAll(List.of(new JobOffer("testJO",
@@ -148,7 +148,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                           "jobOfferID":"testJO",
                           "resume":"testCv",
                           "coverLetter": null,
-                                "appliStatus":"OPEN",
+                                "applicationStatus":"OPEN",
                                  "reminderTime": null,
                                  "dateOfCreation": "2025-10-10"
                          }
@@ -158,7 +158,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                          "jobOfferID":"noId",
                          "resume":"testCvB",
                          "coverLetter": null,
-                         "appliStatus":"OPEN",
+                         "applicationStatus":"OPEN",
                          "reminderTime": null,
                          "dateOfCreation": "2025-11-11"
                          } }

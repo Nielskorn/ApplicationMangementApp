@@ -36,7 +36,7 @@ class JobOfferControllerTest {
                      "testL","testT","testD","link"),
              new JobOffer("test2","test2","test2",
                      "testL2","testT2","testD2","link2")));
-     mockMvc.perform(get("/api/joboffer")).andExpect(status().isOk())
+     mockMvc.perform(get("/api/job-offer")).andExpect(status().isOk())
              .andExpect(content().json("""
 [
  {"id":"test",
@@ -63,7 +63,7 @@ class JobOfferControllerTest {
      jobOfferRepo.saveAll(List.of(new JobOffer("test","test","test",
              "testL","testT","testD","link"),new JobOffer("test2","test2","test2",
              "testL2","testT2","testD2","link2")));
-     mockMvc.perform(get("/api/joboffer/"+ "test")).
+     mockMvc.perform(get("/api/job-offer/"+ "test")).
              andExpect(status().isOk()).andExpect(content().json("""
 {"id":"test",
 "Url_companyLogo":"test",
@@ -80,7 +80,7 @@ class JobOfferControllerTest {
     @DirtiesContext
     void deleteJobOfferById() throws Exception {
      jobOfferRepo.save(new JobOffer("test","test","test","testL","tz","testD","link"));
-     mockMvc.perform(delete("/api/joboffer/"+"test","test")).andExpect(status().isOk());
+     mockMvc.perform(delete("/api/job-offer/"+"test","test")).andExpect(status().isOk());
  }
  @Test
     @DirtiesContext
@@ -97,7 +97,7 @@ class JobOfferControllerTest {
              "LinkJobAd": "link"
              }
              """;
-     mockMvc.perform(put("/api/joboffer/"+"test").contentType(MediaType.APPLICATION_JSON).
+     mockMvc.perform(put("/api/job-offer/"+"test").contentType(MediaType.APPLICATION_JSON).
              content(updatedOffer)).
              andExpect(status().isOk()).
              andExpect(content().json("""
@@ -125,7 +125,7 @@ class JobOfferControllerTest {
              "jobDescription":"UtestD"
              }
              """;
-     mockMvc.perform(put("/api/joboffer/"+"test").contentType(MediaType.APPLICATION_JSON).
+     mockMvc.perform(put("/api/job-offer/"+"test").contentType(MediaType.APPLICATION_JSON).
              content(updatedOffer)).andExpect(status().isNotFound()).andExpect(content().json("""
 {"message": "no such id: test"}
 """));
@@ -133,7 +133,7 @@ class JobOfferControllerTest {
  @Test
     @DirtiesContext
     void createJobOffer() throws Exception {
-     String actual=mockMvc.perform(post("/api/joboffer").contentType(MediaType.APPLICATION_JSON).content("""
+     String actual=mockMvc.perform(post("/api/job-offer").contentType(MediaType.APPLICATION_JSON).content("""
 {
              "Url_companyLogo":"Utest",
              "companyName":"Utest",
@@ -155,7 +155,7 @@ class JobOfferControllerTest {
  }
     @Test
     void getJobOfferByIDExpectedError() throws Exception {
-        mockMvc.perform(get("/api/joboffer/"+"test2")).andExpect(status().isNotFound()).andExpect(content().json(
+        mockMvc.perform(get("/api/job-offer/"+"test2")).andExpect(status().isNotFound()).andExpect(content().json(
                 """
 {"message": "no such id: test2"}
 """
