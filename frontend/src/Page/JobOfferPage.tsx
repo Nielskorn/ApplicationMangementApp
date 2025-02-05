@@ -6,7 +6,7 @@ import JobOfferGallery from "../Component/JobOfferGallary.tsx";
 export default function JobOfferPage(){
     const [jobOffers,setJobOffers]=useState<JobOffer[]>([])
     function fetchJobOffers(){
-        axios.get("api/joboffer").
+        axios.get("api/job-offer").
         then(response=>{setJobOffers(response.data)}).
             catch(error=>console.error(error) )
     }

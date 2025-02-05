@@ -6,6 +6,7 @@ import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;
 import org.neuefische.applicationmangementapp.model.appliStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class ApplicationService {
 
     private final ApplicationRepo applicationRepo;
+
     private final CloudinaryService cloudinaryService;
 
     public ApplicationService(ApplicationRepo applicationRepo, CloudinaryService cloudinaryService) {
@@ -28,14 +30,15 @@ public class ApplicationService {
     public Application addApplication(ApplicationDtoForCreated applicationDto, MultipartFile resume, MultipartFile coverLetter) throws IOException {
         String cloudinaryResumeUrl = cloudinaryService.uploadFile(resume);
         Application application;
-        if (coverLetter != null) {
-            String cloudinaryCoverletterUrl = cloudinaryService.uploadFile(coverLetter);
-            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, cloudinaryCoverletterUrl, appliStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
-        } else {
-            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, null, appliStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
+        if(coverLetter !=null){
+            String cloudinaryCoverletterUrl=cloudinaryService.uploadFile(coverLetter);
+            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,cloudinaryCoverletterUrl, applicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
+        }
+      else {
+            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,null, applicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
         }
 
-        return applicationRepo.save(application);
+     return    applicationRepo.save(application);
     }
 
     public Application updateApplication(String id, ApplicationDtoForEdit applicationDto) throws NoSuchId {
@@ -54,6 +57,10 @@ public class ApplicationService {
         } else {
             applicationRepo.deleteById(id);
             cloudinaryService.deleteFile(application.resume());
+        }
+
+        if(application.coverLetter()!=null){
+            cloudinaryService.deleteFile(application.coverLetter());
         }
 
     }
