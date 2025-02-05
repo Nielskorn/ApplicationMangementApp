@@ -148,7 +148,7 @@ class ApplicationControllerTest {
                  }
              """;
         mockMvc.perform(put("/api/joboffer/"+"test").contentType(MediaType.APPLICATION_JSON).
-                content(updatedApplication)).andExpect(status().isNotFound()).andExpect(content().json("""
+                content(updatedApplication)).andExpect(status().isNotFound()).andExpect(result -> assertInstanceOf(NoSuchId.class,result.getResolvedException())).andExpect(content().json("""
 {"message": "no such id: test"}
 """));
     }
