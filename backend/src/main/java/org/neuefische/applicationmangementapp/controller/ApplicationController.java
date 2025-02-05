@@ -25,8 +25,8 @@ public class ApplicationController {
 
     @PostMapping()
     //consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    public Application createApplication(@RequestPart("resume")  MultipartFile resume, @RequestPart (required = false) MultipartFile coverletter, @RequestPart("meta") ApplicationDtoForCreated application) {
-        return applicationService.addApplication(application,resume,coverletter);
+    public Application createApplication(@RequestPart("resume")  MultipartFile resume, @RequestPart (required = false) MultipartFile coverLetter, @RequestPart("meta") ApplicationDtoForCreated application) {
+        return applicationService.addApplication(application,resume,coverLetter);
     }
 
     @PutMapping("/{id}")
