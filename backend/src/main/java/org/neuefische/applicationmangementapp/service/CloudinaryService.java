@@ -17,8 +17,8 @@ public class CloudinaryService {
     private Cloudinary cloudinary;
 
 
-    public String uploadFile(MultipartFile file) {
-        try {
+    public String uploadFile(MultipartFile file) throws IOException {
+
             Map<String,String> options = new HashMap<>();
             options.put("folder", "ApplicationMangementApp");
 
@@ -30,22 +30,17 @@ public class CloudinaryService {
             Map uploadFile=cloudinary.uploader().upload(fileToUpload,options);
             String publicId = (String) uploadFile.get("public_id");
              return cloudinary.url().secure(true).generate(publicId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+
 
     }
     public void deleteFile(String url) throws IOException {
 
-        try {
+
           String removeUrl= url.replaceFirst("^.*?/upload/", "");
           String removeVersion=removeUrl.replaceFirst("^v[0-9]+/", "");
            cloudinary.uploader().destroy(removeVersion, ObjectUtils.asMap("resource_type", "raw"));
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
 
     }
 }
