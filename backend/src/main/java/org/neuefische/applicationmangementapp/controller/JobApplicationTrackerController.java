@@ -20,6 +20,10 @@ public class JobApplicationTrackerController {
     public List<JobApplicationTracker> getJobApplications(){
       return  jobApplicationTrackerService.getJobApplications();
     }
+    @GetMapping("/all")
+    public List<JobApplicationTracker> getAllJobApplications(){
+        return  jobApplicationTrackerService.getAllJobApplications();
+    }
     @GetMapping("/{id}")
     public JobApplicationTracker getJobApplication(@PathVariable String id) throws NoSuchId {
         return jobApplicationTrackerService.getJobApplicationByApplicationId(id);

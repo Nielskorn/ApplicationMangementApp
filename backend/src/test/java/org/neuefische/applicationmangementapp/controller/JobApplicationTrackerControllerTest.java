@@ -13,6 +13,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -106,5 +107,65 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                          }
 """)
                 );
+    }
+    @Test
+    @DirtiesContext
+    void testGetAllJobApplicationTracker() throws Exception {
+        applicationRepo.saveAll(List.of(
+                new Application("testA",
+                        "testJO",
+                        "testCv",null,
+                        appliStatus.OPEN,null,
+                        LocalDate.of(2025,10,10))
+                ,new Application("testB",
+                        "noId",
+                        "testCvB",null,
+                        appliStatus.OPEN,null,
+                        LocalDate.of(2025,11,11)))
+        );
+        jobOfferRepo.saveAll(List.of(new JobOffer("testJO",
+                "test",
+                "testC",
+                "testdorf",
+                "tester",
+                "testing",
+                "testlink")));
+        mockMvc.perform(get("/api/JobApplication/all")).
+                andExpect(status().isOk()).
+                andExpect(content().json("""
+                  [ { "jobOffer":
+                              {
+                                "id":"testJO",
+                                "Url_companyLogo":"test",
+                                "companyName": "testC",
+                                "location": "testdorf",
+                                "jobTitle": "tester",
+                                "jobDescription":"testing",
+                                "LinkJobAd": "testlink"
+                              },
+                            "application":
+                              {   "id":"testA",
+                          "jobOfferID":"testJO",
+                          "resume":"testCv",
+                          "coverLetter": null,
+                                "appliStatus":"OPEN",
+                                 "reminderTime": null,
+                                 "dateOfCreation": "2025-10-10"
+                         }
+                         }
+                         ,{jobOffer:null,"application":{
+                         "id":"testB",
+                         "jobOfferID":"noId",
+                         "resume":"testCvB",
+                         "coverLetter": null,
+                         "appliStatus":"OPEN",
+                         "reminderTime": null,
+                         "dateOfCreation": "2025-11-11"
+                         } }
+                         
+                         ]
+""")
+                );
+
     }
 }
