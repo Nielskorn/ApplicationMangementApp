@@ -1,6 +1,6 @@
 package org.neuefische.applicationmangementapp.service;
 
-import ch.qos.logback.classic.spi.IThrowableProxy;
+
 import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 
@@ -26,7 +26,7 @@ public class ApplicationService {
      return    applicationRepo.save(application);
     }
 
-    public Application updateApplication(String id, ApplicationDtoForEdit applicationDto) throws Exception {
+    public Application updateApplication(String id, ApplicationDtoForEdit applicationDto) throws NoSuchId {
         if (applicationRepo.findById(id).isEmpty()){
             throw new NoSuchId("no such id: "+id );
         }else{
@@ -47,7 +47,7 @@ public class ApplicationService {
     public Application getApplicationById(String id) throws NoSuchId {
       if (applicationRepo.findById(id).isEmpty()){
           throw new NoSuchId("no such id: "+id);
-      }
-        return  applicationRepo.findById(id).get();
+      }else{
+        return  applicationRepo.findById(id).get();}
     }
 }
