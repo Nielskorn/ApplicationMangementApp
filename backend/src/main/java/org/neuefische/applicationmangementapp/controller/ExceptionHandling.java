@@ -11,7 +11,7 @@ import java.time.Instant;
 
 @RestControllerAdvice
 
-public class ExecaptionHandling {
+public class ExceptionHandling {
 
     @ExceptionHandler(NoSuchId.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

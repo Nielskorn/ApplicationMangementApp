@@ -1,6 +1,7 @@
 package org.neuefische.applicationmangementapp.controller;
 
 import org.junit.jupiter.api.Test;
+import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.JobOffer;
 import org.neuefische.applicationmangementapp.model.appliStatus;
@@ -14,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -76,7 +79,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
     @Test
     @DirtiesContext
-    void testGetJobApplicationTrackerById() throws Exception {
+    void testGetJobApplicationTrackerByApplicationId() throws Exception {
         applicationRepo.save(new Application("testA","testJo","testCv",null,appliStatus.OPEN,null,LocalDate.of(2025,10,10)));
         jobOfferRepo.save(new JobOffer("testJo","logoT","cTest","testLane","tester2","testing2","testlink2"));
         mockMvc.perform(get("/api/JobApplication/"+"testA")).
@@ -106,5 +109,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                          }
 """)
                 );
+    }
+
+    @Test
+    @DirtiesContext
+    void testTryGetJobApplicationTrackerByApplicationIdExpectThrowNoSuchId() throws Exception {
+        applicationRepo.save(new Application("testA","testJo","testCv",null,appliStatus.OPEN,null,LocalDate.of(2025,10,10)));
+        jobOfferRepo.save(new JobOffer("testJo","logoT","cTest","testLane","tester2","testing2","testlink2"));
+        mockMvc.perform(get("/api/JobApplication/"+"testB")).
+                andExpect(status().isNotFound()).
+                andExpect(result -> assertInstanceOf(NoSuchId.class,result.getResolvedException())
+                ).andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("there is No Application under this Id:"+"testB")));
     }
 }
