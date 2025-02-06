@@ -3,7 +3,7 @@ package org.neuefische.applicationmangementapp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.appliStatus;
