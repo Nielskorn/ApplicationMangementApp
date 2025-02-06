@@ -4,6 +4,7 @@ package org.neuefische.applicationmangementapp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
+import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.appliStatus;
@@ -26,6 +27,7 @@ import java.util.List;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
