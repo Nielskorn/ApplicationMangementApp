@@ -8,7 +8,6 @@ import StatusIndicator from "../Component/StatusIndicator.tsx";
 export default function Applicationdetails(){
     const {id}=useParams<{id:string}>();
     const navigate=useNavigate()
-    //const [data,SetData]=useState<Application>();
     const [jobOfferID,setJobOfferID]=useState<string>("");
 
     const [resume,setResume]=useState<string>("");
