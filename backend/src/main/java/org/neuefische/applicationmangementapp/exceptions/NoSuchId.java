@@ -1,4 +1,4 @@
-package org.neuefische.applicationmangementapp.execaptions;
+package org.neuefische.applicationmangementapp.exceptions;
 
 public class NoSuchId extends Exception {
     public NoSuchId(String message) {

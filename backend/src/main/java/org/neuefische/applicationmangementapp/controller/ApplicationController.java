@@ -1,6 +1,6 @@
 package org.neuefische.applicationmangementapp.controller;
 
-import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
+import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;

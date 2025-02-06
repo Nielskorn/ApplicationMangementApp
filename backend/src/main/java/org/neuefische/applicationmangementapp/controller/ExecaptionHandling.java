@@ -1,6 +1,6 @@
 package org.neuefische.applicationmangementapp.controller;
 
-import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
+import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
