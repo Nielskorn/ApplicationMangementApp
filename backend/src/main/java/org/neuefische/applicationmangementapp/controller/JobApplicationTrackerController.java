@@ -17,11 +17,15 @@ public class JobApplicationTrackerController {
     }
 
     @GetMapping
-    //returns All jobApplicationsWithA Offer
+    //returns All jobApplicationsWithAOffer
     public List<JobApplicationTracker> getJobApplications() {
         return jobApplicationTrackerService.getJobApplications();
     }
-
+    @GetMapping("all")
+    //returns All jobApplications even with no Joboffer
+    public List<JobApplicationTracker> getAllJobApplications() {
+        return jobApplicationTrackerService.getAllJobApplications();
+    }
     @GetMapping("/{id}")
     public JobApplicationTracker getJobApplication(@PathVariable String id) throws NoSuchId {
         return jobApplicationTrackerService.getJobApplicationByApplicationId(id);

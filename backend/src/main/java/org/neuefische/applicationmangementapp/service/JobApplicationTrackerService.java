@@ -25,6 +25,9 @@ public class JobApplicationTrackerService {
         return getApplications(false);
 
     }
+    public List<JobApplicationTracker> getAllJobApplications() {
+        return getApplications(true);
+    }
 
     public List<JobApplicationTracker> getApplications(boolean getAll) {
         List<JobApplicationTracker> jobApplicationTrackers = new ArrayList<>();
