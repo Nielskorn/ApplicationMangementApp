@@ -100,7 +100,8 @@ class JobOfferControllerTest {
                 "companyName":"Utest",
                 "location":"UtestL",
                 "jobTitle":"UtestT",
-                "jobDescription":"UtestD"
+                "jobDescription":"UtestD",
+                "LinkJobAd": "link"
                 }
                 """;
         mockMvc.perform(put("/api/joboffer/" + "test").contentType(MediaType.APPLICATION_JSON).
