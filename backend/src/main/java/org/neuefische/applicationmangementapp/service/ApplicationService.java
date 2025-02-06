@@ -23,7 +23,7 @@ public class ApplicationService {
         this.cloudinaryService = cloudinaryService;
     }
 
-    public Application addApplication(ApplicationDtoForCreated applicationDto, MultipartFile resume,MultipartFile coverLetter) {
+    public Application addApplication(ApplicationDtoForCreated applicationDto, MultipartFile resume,MultipartFile coverLetter) throws IOException {
         String cloudinaryResumeUrl = cloudinaryService.uploadFile(resume);
         Application application;
         if(coverLetter !=null){
