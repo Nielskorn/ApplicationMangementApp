@@ -3,7 +3,8 @@ backend/target/
 backend/.mvn/wrapper/maven-wrapper.jar
 backend/src/main/**/target/
 backend/src/test/**/target/
-
+mvnw
+mvnw.cmd
 ### STS ###
 .apt_generated
 .classpath
