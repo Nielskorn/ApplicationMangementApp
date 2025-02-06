@@ -1,9 +1,7 @@
 package org.neuefische.applicationmangementapp.controller;
 
-
 import org.neuefische.applicationmangementapp.execaptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
-
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;
 import org.neuefische.applicationmangementapp.service.ApplicationService;
@@ -14,7 +12,9 @@ import java.util.List;
 @RestController
 
 public class ApplicationController {
+
     private final ApplicationService applicationService;
+
     public ApplicationController(ApplicationService applicationService) {
         this.applicationService = applicationService;
     }
@@ -23,10 +23,12 @@ public class ApplicationController {
     public Application createApplication(@RequestBody ApplicationDtoForCreated application) {
         return applicationService.addApplication(application);
     }
+
     @PutMapping("/{id}")
-    public Application updateApplication(@PathVariable String id, @RequestBody ApplicationDtoForEdit application) throws Exception {
+    public Application updateApplication(@PathVariable String id, @RequestBody ApplicationDtoForEdit application) throws NoSuchId {
         return applicationService.updateApplication(id,application);
     }
+
     @DeleteMapping("/{id}")
     public void deleteApplication(@PathVariable String id) {
         applicationService.deleteApplicationById(id);

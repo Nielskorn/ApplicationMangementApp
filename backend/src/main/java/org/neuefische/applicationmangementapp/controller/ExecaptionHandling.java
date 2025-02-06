@@ -12,9 +12,10 @@ import java.time.Instant;
 @RestControllerAdvice
 
 public class ExecaptionHandling {
+
     @ExceptionHandler(NoSuchId.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorMessage handelNoSuchId(Exception exception){
+    public ErrorMessage handelNoSuchId(Exception exception) {
         return new ErrorMessage(exception.getMessage(), Instant.now());
     }
 }
