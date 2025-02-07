@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class JobApplicationTrackerControllerTest {
 
-   @Autowired
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -41,10 +41,10 @@ class JobApplicationTrackerControllerTest {
         applicationRepo.save(
                 new Application(
                         "testA",
-                "testJO",
-                "testCv",null,
-                applicationStatus.OPEN,null,
-                LocalDate.of(2025,10,10))
+                        "testJO",
+                        "testCv", null,
+                        applicationStatus.OPEN, null,
+                        LocalDate.of(2025, 10, 10))
         );
         jobOfferRepo.save(
                 new JobOffer(
@@ -55,72 +55,72 @@ class JobApplicationTrackerControllerTest {
                         "tester",
                         "testing",
                         "testlink")
-                );
-                mockMvc.perform(get("/api/JobApplication")).andExpect(status().isOk()).andExpect(content().json("""
-                        [
-                          {
-                            "jobOffer":
-                              {
-                                "id":"testJO",
-                                "Url_companyLogo":"test",
-                                "companyName": "testC",
-                                "location": "testdorf",
-                                "jobTitle": "tester",
-                                "jobDescription":"testing",
-                                "LinkJobAd": "testlink"
-                              },
-                            "application":
-                              {   "id":"testA",
-                          "jobOfferID":"testJO",
-                          "resume":"testCv",
-                          "coverLetter": null,
-                                "appliStatus":"OPEN",
-                                 "reminderTime": null,
-                                 "dateOfCreation": "2025-10-10"
-                         }
-                         }
-                        ]
-                        """));
+        );
+        mockMvc.perform(get("/api/JobApplication")).andExpect(status().isOk()).andExpect(content().json("""
+                [
+                  {
+                    "jobOffer":
+                      {
+                        "id":"testJO",
+                        "Url_companyLogo":"test",
+                        "companyName": "testC",
+                        "location": "testdorf",
+                        "jobTitle": "tester",
+                        "jobDescription":"testing",
+                        "LinkJobAd": "testlink"
+                      },
+                    "application":
+                      {   "id":"testA",
+                  "jobOfferID":"testJO",
+                  "resume":"testCv",
+                  "coverLetter": null,
+                        "appliStatus":"OPEN",
+                         "reminderTime": null,
+                         "dateOfCreation": "2025-10-10"
+                 }
+                 }
+                ]
+                """));
     }
 
     @Test
     @DirtiesContext
     void testGetJobApplicationTrackerById() throws Exception {
-        applicationRepo.save(new Application("testA","testJo","testCv",null, applicationStatus.OPEN,null,LocalDate.of(2025,10,10)));
-        jobOfferRepo.save(new JobOffer("testJo","logoT","cTest","testLane","tester2","testing2","testlink2"));
-        mockMvc.perform(get("/api/JobApplication/"+"testA")).
+        applicationRepo.save(new Application("testA", "testJo", "testCv", null, applicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
+        jobOfferRepo.save(new JobOffer("testJo", "logoT", "cTest", "testLane", "tester2", "testing2", "testlink2"));
+        mockMvc.perform(get("/api/JobApplication/" + "testA")).
                 andExpect(status().isOk()).
                 andExpect(content().
                         json("""
-{
-                            "jobOffer":
-                              {
-                                "id":"testJo",
-                                "Url_companyLogo":"logoT",
-                                "companyName": "cTest",
-                                "location": "testLane",
-                                "jobTitle": "tester2",
-                                "jobDescription":"testing2",
-                                "LinkJobAd": "testlink2"
-                              },
-                            "application":
-                              {   "id":"testA",
-                          "jobOfferID":"testJo",
-                          "resume":"testCv",
-                          "coverLetter": null,
-                                "applicationStatus":"OPEN",
-                                 "reminderTime": null,
-                                 "dateOfCreation": "2025-10-10"
-                         }
-                         }
-""")
+                                {
+                                                            "jobOffer":
+                                                              {
+                                                                "id":"testJo",
+                                                                "Url_companyLogo":"logoT",
+                                                                "companyName": "cTest",
+                                                                "location": "testLane",
+                                                                "jobTitle": "tester2",
+                                                                "jobDescription":"testing2",
+                                                                "LinkJobAd": "testlink2"
+                                                              },
+                                                            "application":
+                                                              {   "id":"testA",
+                                                          "jobOfferID":"testJo",
+                                                          "resume":"testCv",
+                                                          "coverLetter": null,
+                                                                "applicationStatus":"OPEN",
+                                                                 "reminderTime": null,
+                                                                 "dateOfCreation": "2025-10-10"
+                                                         }
+                                                         }
+                                """)
                 );
     }
 
     @Test
     @DirtiesContext
     void testTryGetJobApplicationTrackerByApplicationIdExpectThrowNoSuchId() throws Exception {
-        applicationRepo.save(new Application("testA", "testJo", "testCv", null, appliStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
+        applicationRepo.save(new Application("testA", "testJo", "testCv", null, applicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
         jobOfferRepo.save(new JobOffer("testJo", "logoT", "cTest", "testLane", "tester2", "testing2", "testlink2"));
         mockMvc.perform(get("/api/JobApplication/" + "testB")).
                 andExpect(status().isNotFound()).
@@ -134,14 +134,14 @@ class JobApplicationTrackerControllerTest {
         applicationRepo.saveAll(List.of(
                 new Application("testA",
                         "testJO",
-                        "testCv",null,
-                        applicationStatus.OPEN,null,
-                        LocalDate.of(2025,10,10))
-                ,new Application("testB",
+                        "testCv", null,
+                        applicationStatus.OPEN, null,
+                        LocalDate.of(2025, 10, 10))
+                , new Application("testB",
                         "noId",
-                        "testCvB",null,
-                        applicationStatus.OPEN,null,
-                        LocalDate.of(2025,11,11)))
+                        "testCvB", null,
+                        applicationStatus.OPEN, null,
+                        LocalDate.of(2025, 11, 11)))
         );
         jobOfferRepo.saveAll(List.of(new JobOffer("testJO",
                 "test",
@@ -153,38 +153,38 @@ class JobApplicationTrackerControllerTest {
         mockMvc.perform(get("/api/JobApplication/all")).
                 andExpect(status().isOk()).
                 andExpect(content().json("""
-                  [ { "jobOffer":
-                              {
-                                "id":"testJO",
-                                "Url_companyLogo":"test",
-                                "companyName": "testC",
-                                "location": "testdorf",
-                                "jobTitle": "tester",
-                                "jobDescription":"testing",
-                                "LinkJobAd": "testlink"
-                              },
-                            "application":
-                              {   "id":"testA",
-                          "jobOfferID":"testJO",
-                          "resume":"testCv",
-                          "coverLetter": null,
-                                "applicationStatus":"OPEN",
-                                 "reminderTime": null,
-                                 "dateOfCreation": "2025-10-10"
-                         }
-                         }
-                         ,{jobOffer:null,"application":{
-                         "id":"testB",
-                         "jobOfferID":"noId",
-                         "resume":"testCvB",
-                         "coverLetter": null,
-                         "applicationStatus":"OPEN",
-                         "reminderTime": null,
-                         "dateOfCreation": "2025-11-11"
-                         } }
-                         
-                         ]
-""")
+                                          [ { "jobOffer":
+                                                      {
+                                                        "id":"testJO",
+                                                        "Url_companyLogo":"test",
+                                                        "companyName": "testC",
+                                                        "location": "testdorf",
+                                                        "jobTitle": "tester",
+                                                        "jobDescription":"testing",
+                                                        "LinkJobAd": "testlink"
+                                                      },
+                                                    "application":
+                                                      {   "id":"testA",
+                                                  "jobOfferID":"testJO",
+                                                  "resume":"testCv",
+                                                  "coverLetter": null,
+                                                        "applicationStatus":"OPEN",
+                                                         "reminderTime": null,
+                                                         "dateOfCreation": "2025-10-10"
+                                                 }
+                                                 }
+                                                 ,{jobOffer:null,"application":{
+                                                 "id":"testB",
+                                                 "jobOfferID":"noId",
+                                                 "resume":"testCvB",
+                                                 "coverLetter": null,
+                                                 "applicationStatus":"OPEN",
+                                                 "reminderTime": null,
+                                                 "dateOfCreation": "2025-11-11"
+                                                 } }
+                        
+                                                 ]
+                        """)
                 );
 
     }

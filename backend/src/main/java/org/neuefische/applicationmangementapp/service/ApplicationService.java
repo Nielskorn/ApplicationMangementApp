@@ -4,9 +4,8 @@ import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;
-import org.neuefische.applicationmangementapp.model.appliStatus;
+import org.neuefische.applicationmangementapp.model.applicationStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,20 +29,19 @@ public class ApplicationService {
     public Application addApplication(ApplicationDtoForCreated applicationDto, MultipartFile resume, MultipartFile coverLetter) throws IOException {
         String cloudinaryResumeUrl = cloudinaryService.uploadFile(resume);
         Application application;
-        if(coverLetter !=null){
-            String cloudinaryCoverletterUrl=cloudinaryService.uploadFile(coverLetter);
-            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,cloudinaryCoverletterUrl, applicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
-        }
-      else {
-            application=new Application(IdService.getId(),applicationDto.jobOfferID(),cloudinaryResumeUrl,null, applicationStatus.OPEN,applicationDto.reminderTime(), LocalDate.now());
+        if (coverLetter != null) {
+            String cloudinaryCoverletterUrl = cloudinaryService.uploadFile(coverLetter);
+            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, cloudinaryCoverletterUrl, applicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
+        } else {
+            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, null, applicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
         }
 
-     return    applicationRepo.save(application);
+        return applicationRepo.save(application);
     }
 
     public Application updateApplication(String id, ApplicationDtoForEdit applicationDto) throws NoSuchId {
         Application oApplication = applicationRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
-        Application application = new Application(id, applicationDto.jobOfferID(), applicationDto.resume(), applicationDto.coverLetter(), applicationDto.appliStatus(), applicationDto.reminderTime(), oApplication.dateOfCreation());
+        Application application = new Application(id, applicationDto.jobOfferID(), applicationDto.resume(), applicationDto.coverLetter(), applicationDto.applicationStatus(), applicationDto.reminderTime(), oApplication.dateOfCreation());
         return applicationRepo.save(application);
     }
 
@@ -59,7 +57,7 @@ public class ApplicationService {
             cloudinaryService.deleteFile(application.resume());
         }
 
-        if(application.coverLetter()!=null){
+        if (application.coverLetter() != null) {
             cloudinaryService.deleteFile(application.coverLetter());
         }
 
