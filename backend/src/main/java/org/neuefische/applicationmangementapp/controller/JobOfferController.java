@@ -30,8 +30,8 @@ public class JobOfferController {
         return jobOfferService.createJobOffer(jobOffer);
     }
     @PutMapping("/{id}")
-    public JobOffer updateJobOffer(@PathVariable String id, @RequestBody JobOffer jobOffer) throws NoSuchId {
-        return jobOfferService.updateJobOffer(id,jobOffer);
+    public JobOffer updateJobOffer(@PathVariable String id, @RequestBody JobOfferDto jobOfferDto) throws NoSuchId {
+        return jobOfferService.updateJobOffer(id,jobOfferDto);
     }
     @DeleteMapping("/{id}")
     public void deleteJobOffer(@PathVariable String id) {

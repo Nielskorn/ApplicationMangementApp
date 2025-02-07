@@ -25,7 +25,7 @@ function fetchJobDetais(){
 
 }
 function navigateToEdit() {
-    navigate("/editJobOffer/"+id)
+    navigate(`/editJobOffer/${id}`)
 
 }
 function deleteJob(){

@@ -26,7 +26,7 @@ export default function EditApplicationSite(){
     },[id])
     function OnSubmit(event:FormEvent<HTMLFormElement>){
         event.preventDefault();
-        axios.put("/api/application",{id, jobOfferID:jobOfferID,resume:resume,
+        axios.put("/api/application/"+id,{ jobOfferID:jobOfferID,resume:resume,
             coverLetter: coverLetter,appliStatus:appliStatus, reminderTime: reminderTime
         }).then().catch(error=>{console.log(error)})
         OnReset()

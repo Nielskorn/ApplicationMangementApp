@@ -22,10 +22,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class JobOfferControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
     private ObjectMapper objectMapper;
+
     @Autowired
     private JobOfferRepo jobOfferRepo;
 
@@ -34,9 +37,9 @@ class JobOfferControllerTest {
     void getAllJobOffers() throws Exception {
         jobOfferRepo.saveAll(List.of(
                 new JobOffer("test", "test", "test",
-                        "testL", "testT", "testD"),
+                        "testL", "testT", "testD", "link"),
                 new JobOffer("test2", "test2", "test2",
-                        "testL2", "testT2", "testD2")));
+                        "testL2", "testT2", "testD2", "link2")));
         mockMvc.perform(get("/api/joboffer")).andExpect(status().isOk())
                 .andExpect(content().json("""
                         [
@@ -45,14 +48,16 @@ class JobOfferControllerTest {
                           "companyName":"test",
                           "location":"testL",
                           "jobTitle":"testT",
-                          "jobDescription":"testD"
+                          "jobDescription":"testD",
+                          "LinkJobAd": "link"
                          },
                          {"id":"test2",
                           "Url_companyLogo":"test2",
                           "companyName":"test2",
                           "location":"testL2",
                           "jobTitle":"testT2",
-                          "jobDescription":"testD2"}]
+                          "jobDescription":"testD2",
+                          "LinkJobAd": "link2"}]
                         """)
                 );
     }
@@ -61,8 +66,8 @@ class JobOfferControllerTest {
     @DirtiesContext
     void getJobOfferById() throws Exception {
         jobOfferRepo.saveAll(List.of(new JobOffer("test", "test", "test",
-                "testL", "testT", "testD"), new JobOffer("test2", "test2", "test2",
-                "testL2", "testT2", "testD2")));
+                "testL", "testT", "testD", "link"), new JobOffer("test2", "test2", "test2",
+                "testL2", "testT2", "testD2", "link2")));
         mockMvc.perform(get("/api/joboffer/" + "test")).
                 andExpect(status().isOk()).andExpect(content().json("""
                         {"id":"test",
@@ -70,7 +75,8 @@ class JobOfferControllerTest {
                         "companyName":"test",
                         "location":"testL",
                         "jobTitle":"testT",
-                        "jobDescription":"testD"
+                        "jobDescription":"testD",
+                        "LinkJobAd": "link"
                          }
                         """
                 ));
@@ -79,14 +85,14 @@ class JobOfferControllerTest {
     @Test
     @DirtiesContext
     void deleteJobOfferById() throws Exception {
-        jobOfferRepo.save(new JobOffer("test", "test", "test", "testL", "tz", "testD"));
+        jobOfferRepo.save(new JobOffer("test", "test", "test", "testL", "tz", "testD", "link"));
         mockMvc.perform(delete("/api/joboffer/" + "test", "test")).andExpect(status().isOk());
     }
 
     @Test
     @DirtiesContext
     void updateJobOfferById() throws Exception {
-        jobOfferRepo.save(new JobOffer("test", "test", "test", "testL", "tz", "testD"));
+        jobOfferRepo.save(new JobOffer("test", "test", "test", "testL", "tz", "testD", "link"));
         String updatedOffer = """
                 {
                 "id":"test",
@@ -94,7 +100,8 @@ class JobOfferControllerTest {
                 "companyName":"Utest",
                 "location":"UtestL",
                 "jobTitle":"UtestT",
-                "jobDescription":"UtestD"
+                "jobDescription":"UtestD",
+                "LinkJobAd": "link"
                 }
                 """;
         mockMvc.perform(put("/api/joboffer/" + "test").contentType(MediaType.APPLICATION_JSON).
@@ -106,7 +113,9 @@ class JobOfferControllerTest {
                                      "companyName":"Utest",
                                      "location":"UtestL",
                                      "jobTitle":"UtestT",
-                                     "jobDescription":"UtestD"}
+                                     "jobDescription":"UtestD",
+                                     "LinkJobAd": "link"
+                                     }
                         """));
 
     }

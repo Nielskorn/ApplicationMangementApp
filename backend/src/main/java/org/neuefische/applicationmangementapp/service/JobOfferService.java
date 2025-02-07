@@ -1,5 +1,6 @@
 package org.neuefische.applicationmangementapp.service;
 
+
 import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.JobOffer;
 import org.neuefische.applicationmangementapp.model.JobOfferDto;
@@ -21,7 +22,7 @@ public class JobOfferService {
     public JobOffer createJobOffer(JobOfferDto jobOfferDto) {
         JobOffer jobOffer = new JobOffer(IdService.getId(), jobOfferDto.Url_companyLogo(),
                 jobOfferDto.companyName(), jobOfferDto.location(), jobOfferDto.jobTitle(),
-                jobOfferDto.jobDescription());
+                jobOfferDto.jobDescription(), jobOfferDto.LinkJobAd());
         return jobOfferRepo.save(jobOffer);
     }
 
@@ -30,18 +31,19 @@ public class JobOfferService {
     }
 
     public JobOffer getJobOfferById(String id) throws NoSuchId {
-        Optional<JobOffer> jobOffer = jobOfferRepo.findById(id);
-        if (jobOffer.isPresent()) {
-            return jobOffer.get();
-        } else throw new NoSuchId("no such id: " + id);
+        return jobOfferRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
+
     }
 
-    public JobOffer updateJobOffer(String id, JobOffer jobOffer) throws NoSuchId {
-        if (jobOfferRepo.existsById(id)) {
-            return jobOfferRepo.save(jobOffer);
-        } else {
-            throw new NoSuchId("no such id: " + id);
-        }
+    public Optional<JobOffer> getOJobOfferById(String id) {
+        return jobOfferRepo.findById(id);
+    }
+
+    public JobOffer updateJobOffer(String id, JobOfferDto jobOfferDto) throws NoSuchId {
+        jobOfferRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
+        JobOffer jobOffer = new JobOffer(id, jobOfferDto.Url_companyLogo(), jobOfferDto.companyName(), jobOfferDto.location(), jobOfferDto.jobTitle(), jobOfferDto.jobDescription(), jobOfferDto.LinkJobAd());
+        return jobOfferRepo.save(jobOffer);
+
     }
 
     public void deleteJobOffer(String id) {

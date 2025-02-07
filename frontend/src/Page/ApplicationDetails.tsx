@@ -1,33 +1,48 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Application} from "../types/Application.ts";
 import StatusIndicator from "../Component/StatusIndicator.tsx";
+import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
+
+
 
 
 export default function Applicationdetails(){
     const {id}=useParams<{id:string}>();
     const navigate=useNavigate()
-    const [jobOfferID,setJobOfferID]=useState<string>("");
 
+    const [companyName,setCompanyName]=useState<string>("");
+    const [jobTitle,setJobTitle]=useState<string>("");
     const [resume,setResume]=useState<string>("");
     const [coverLetter, setCoverLetter]=useState<string>();
     const [status,setStatus]=useState<string>("");
     const [reminderTime,setReminderTime]=useState<string>()
     const [dateOfCreation,setDateOfCreation]=useState<string>();
+
+    function fetchJobApplication(){
+        axios.get<JobApplicationTracker>(`/api/JobApplication/`+id).then((response)=>{
+            setResume(response.data.application.resume)
+            setCoverLetter(response.data.application.coverLetter)
+            setStatus(response.data.application.appliStatus)
+            setReminderTime(response.data.application.reminderTime)
+            setDateOfCreation(response.data.application.dateOfCreation)
+            setCompanyName(response.data.jobOffer.companyName)
+            setJobTitle (response.data.jobOffer.jobTitle)
+
+
+        })
+    }
+
+
+
+
+
     useEffect(()=>{
-        const fetchApplication=async ()=>{
-            const response=await axios.get<Application>(`/api/application/${id}`);
-            setJobOfferID(response.data.jobOfferID);
 
-            setResume(response.data.resume)
-            setCoverLetter(response.data.coverLetter)
-            setStatus(response.data.appliStatus)
-            setReminderTime(response.data.reminderTime)
-            setDateOfCreation(response.data.dateOfCreation)
+        fetchJobApplication();
 
-        };
-        fetchApplication();
+
+
     },[id])
 function navigateToEditPage(){
         navigate("/editApplication/"+id)
@@ -46,7 +61,8 @@ function deleteEntry() {
     return(
         <div className="ApplicationDetails">
             <h1>applicationDetails</h1>
-            <h2>{jobOfferID}</h2>
+            <h2>Company: {companyName}</h2>
+            <p>JobTitle: {jobTitle}</p>
             <p>{resume}</p>
             <p>{coverLetter}</p>
             <StatusIndicator status={status}/>
