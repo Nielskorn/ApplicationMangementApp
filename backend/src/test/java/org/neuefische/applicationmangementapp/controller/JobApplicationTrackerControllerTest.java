@@ -74,7 +74,7 @@ class JobApplicationTrackerControllerTest {
                   "jobOfferID":"testJO",
                   "resume":"testCv",
                   "coverLetter": null,
-                        "appliStatus":"OPEN",
+                        "applicationStatus":"OPEN",
                          "reminderTime": null,
                          "dateOfCreation": "2025-10-10"
                  }
