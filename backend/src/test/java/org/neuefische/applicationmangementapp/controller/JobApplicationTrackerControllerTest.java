@@ -122,7 +122,7 @@ class JobApplicationTrackerControllerTest {
         mockMvc.perform(get("/api/JobApplication/" + "testB")).
                 andExpect(status().isNotFound()).
                 andExpect(result -> assertInstanceOf(NoSuchId.class, result.getResolvedException())
-                ).andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("there is No Application under this Id:" + "testB")));
+                ).andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("no such id: " + "testB" + "By Application")));
     }
 
     @Test

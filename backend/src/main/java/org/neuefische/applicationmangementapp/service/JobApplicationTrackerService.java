@@ -25,6 +25,7 @@ public class JobApplicationTrackerService {
         return getApplications(false);
 
     }
+
     public List<JobApplicationTracker> getAllJobApplications() {
         return getApplications(true);
     }
@@ -55,7 +56,7 @@ public class JobApplicationTrackerService {
             } else {
                 return new JobApplicationTracker(null, app.get());
             }
-        } else throw new NoSuchId("there is No Application under this Id:" + id);
+        } else throw new NoSuchId(id + "By Application");
 
     }
 
