@@ -19,7 +19,7 @@ function OnReset(){
 }
     function OnSubmit(event:FormEvent<HTMLFormElement>){
         event.preventDefault();
-        axios.post("api/joboffer",{
+        axios.post("api/job-offer",{
             Url_companyLogo:companyLogoUrl
             ,companyName: companyName,
             location: location, jobTitle: jobTitle, jobDescription: jobDescription, LinkJobAd: linkJobAd

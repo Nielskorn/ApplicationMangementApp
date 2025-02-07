@@ -12,7 +12,7 @@ export default function EditJobOfferPage(){
     const [jobDescription,setJobDescription]=useState<string>("");
     const [linkJobAd, setLinkJobAd]=useState<string>("");
     function fetchJob(){
-        axios.get<JobOffer>(`/api/joboffer/${id}`).
+        axios.get<JobOffer>(`/api/job-offer/${id}`).
         then((response)=>{
             setJobTitle(response.data.jobTitle);
             setJobDescription(response.data.jobDescription)
@@ -27,7 +27,7 @@ export default function EditJobOfferPage(){
     }, []);
     function OnSumit(event:FormEvent<HTMLFormElement>){
         event.preventDefault();
-        axios.put("/api/joboffer/"+id,
+        axios.put("/api/job-offer/"+id,
             { Url_companyLogo: url_companyLogo, companyName:companyName,
                 location:location, jobTitle: jobTitle, jobDescription: jobDescription,LinkJobAd:linkJobAd
         }).then().catch(error=>console.error(error))
