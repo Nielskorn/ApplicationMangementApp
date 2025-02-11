@@ -1,32 +1,35 @@
 import * as React from "react";
 
-interface StatusIndicatorProps{
-    status:"OPEN"|"CLOSED"|"IN_PROGRESS"|"SUCCESS"|string
+interface StatusIndicatorProps {
+    status: "OPEN" | "CLOSED" | "IN_PROGRESS" | "SUCCESS" | string
 }
-function  getStatusColor(status: StatusIndicatorProps["status"]){
+
+function getStatusColor(status: StatusIndicatorProps["status"]) {
     switch (status) {
         case "OPEN":
-            return "bg-green-500"
+            return "green"
         case  "IN_PROGRESS":
-            return "bg-orange-500"
+            return "orange"
         case "SUCCESS":
-            return "bg-blue-500"
+            return "blue"
         case "CLOSED":
-            return "bg-red-500"
+            return "red"
         default:
-            return "bg-gray-500"
+            return ""
     }
 }
-const StatusIndicator:React.FC<StatusIndicatorProps>=({status})=>{
 
-return (
-    <div className="flex items-center space-x-2">
-        <div
-            className={`w-4 h-4 rounded-full ${getStatusColor(status)}`}
-            title={status}
-        ></div>
-        <span className="text-sm font-medium capitalize">{status}</span>
-    </div>
-);
+const StatusIndicator: React.FC<StatusIndicatorProps> = ({status}) => {
+
+    return (
+        <div className="flex items-center space-x-2"
+             style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "8px"}}>
+            <div
+                style={{width: "16px", height: "16px", borderRadius: "50%", backgroundColor: getStatusColor(status)}}
+                title={status}
+            ></div>
+            <span className="text-sm font-medium capitalize">{status}</span>
+        </div>
+    );
 };
 export default StatusIndicator
