@@ -6,7 +6,6 @@ import org.neuefische.applicationmangementapp.model.ApplicationDtoForCreated;
 import org.neuefische.applicationmangementapp.model.ApplicationDtoForEdit;
 import org.neuefische.applicationmangementapp.model.ApplicationStatus;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,15 +27,14 @@ public class ApplicationService {
     }
 
     public Application addApplication(ApplicationDtoForCreated applicationDto, MultipartFile resume, MultipartFile coverLetter) throws IOException {
-        String cloudinaryResumeUrl = cloudinaryService.uploadFile(resume);
+        String cloudinaryResumeUrl = cloudinaryService.uploadPdfFile(resume);
         Application application;
         if (coverLetter != null) {
-            String cloudinaryCoverletterUrl = cloudinaryService.uploadFile(coverLetter);
+            String cloudinaryCoverletterUrl = cloudinaryService.uploadPdfFile(coverLetter);
             application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, cloudinaryCoverletterUrl, ApplicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
         } else {
             application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, null, ApplicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
         }
-
         return applicationRepo.save(application);
     }
 
@@ -47,8 +45,6 @@ public class ApplicationService {
     }
 
     public void deleteApplicationById(String id) throws NoSuchId, IOException {
-
-
         Application application = applicationRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
 
         if (multipyApplicationExistsIfTnisResume(application.resume())) {

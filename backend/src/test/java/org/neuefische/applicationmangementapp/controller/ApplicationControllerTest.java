@@ -50,8 +50,8 @@ class ApplicationControllerTest {
     @DirtiesContext
     void getAllApplications() throws Exception {
         applicationRepo.saveAll(List.of(
-                new Application("test","tester","desc","resume", ApplicationStatus.OPEN,null,LocalDate.now()),
-                new Application("test2","tester2","desc","resume", ApplicationStatus.OPEN,null,LocalDate.now())
+                new Application("test", "tester", "desc", "resume", ApplicationStatus.OPEN, null, LocalDate.now()),
+                new Application("test2", "tester2", "desc", "resume", ApplicationStatus.OPEN, null, LocalDate.now())
 
         ));
         mockMvc.perform(get("/api/application")).andExpect(status().isOk()).andExpect(content().json(
@@ -78,35 +78,35 @@ class ApplicationControllerTest {
     @Test
     @DirtiesContext
     void getApplicationById() throws Exception {
-        applicationRepo.saveAll(List.of(new Application("test","tester","resume","cl", ApplicationStatus.OPEN, null, LocalDate.of(2025,2,20)),
-                new Application("test2","tester2","desc","resume", ApplicationStatus.OPEN,null,LocalDate.of(2025,5,6))));
-        mockMvc.perform(get("/api/application/"+"test")).andExpect(status().isOk()).andExpect(content().json(
-        """
-        {"id": "test",
-        "jobOfferID": "tester",
-        "resume": "resume",
-        "coverLetter": "cl",
-        "applicationStatus": "OPEN",
-        "reminderTime": null,
-       "dateOfCreation": "2025-02-20"       }
-       """
+        applicationRepo.saveAll(List.of(new Application("test", "tester", "resume", "cl", ApplicationStatus.OPEN, null, LocalDate.of(2025, 2, 20)),
+                new Application("test2", "tester2", "desc", "resume", ApplicationStatus.OPEN, null, LocalDate.of(2025, 5, 6))));
+        mockMvc.perform(get("/api/application/" + "test")).andExpect(status().isOk()).andExpect(content().json(
+                """
+                         {"id": "test",
+                         "jobOfferID": "tester",
+                         "resume": "resume",
+                         "coverLetter": "cl",
+                         "applicationStatus": "OPEN",
+                         "reminderTime": null,
+                        "dateOfCreation": "2025-02-20"       }
+                        """
         ));
     }
 
     @Test
     void getApplicationByIDExpectedError() throws Exception {
-        mockMvc.perform(get("/api/application/"+"test2")).andExpect(status().isNotFound()).andExpect(content().json(
+        mockMvc.perform(get("/api/application/" + "test2")).andExpect(status().isNotFound()).andExpect(content().json(
                 """
-{"message": "no such id: test2"}
-"""
+                        {"message": "no such id: test2"}
+                        """
         ));
     }
 
     @Test
     @DirtiesContext
     void deleteApplicationById() throws Exception {
-        applicationRepo.save(new Application("fakeId","testerId","resume","cl", ApplicationStatus.OPEN, null,LocalDate.now()));
-        mockMvc.perform(delete("/api/application/"+"fakeId")).andExpect(status().isOk());
+        applicationRepo.save(new Application("fakeId", "testerId", "resume", "cl", ApplicationStatus.OPEN, null, LocalDate.now()));
+        mockMvc.perform(delete("/api/application/" + "fakeId")).andExpect(status().isOk());
 
     }
 
@@ -122,26 +122,26 @@ class ApplicationControllerTest {
     @Test
     @DirtiesContext
     void updateApplication() throws Exception {
-        applicationRepo.save(new Application("test1","tester2","resume2","cob", ApplicationStatus.OPEN, null,LocalDate.of(2020,1,1)))
-                ;
-        mockMvc.perform(put("/api/application/"+"test1").contentType(MediaType.APPLICATION_JSON)
+        applicationRepo.save(new Application("test1", "tester2", "resume2", "cob", ApplicationStatus.OPEN, null, LocalDate.of(2020, 1, 1)))
+        ;
+        mockMvc.perform(put("/api/application/" + "test1").contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                {
-                 "jobOfferID": "tester2",
-                 "resume": "resume",
-                 "coverLetter": "cover letter",
-                 "applicationStatus": "IN_PROGRESS",
-                 "reminderTime": null
-                 }
-                """)).andExpect(status().isOk()).andExpect(content().json("""
-{"id": "test1",
-"jobOfferID": "tester2",
-"resume": "resume",
-"coverLetter": "cover letter",
-"applicationStatus": "IN_PROGRESS",
-"reminderTime": null,
-"dateOfCreation": "2020-01-01"}
-"""));
+                        {
+                         "jobOfferID": "tester2",
+                         "resume": "resume",
+                         "coverLetter": "cover letter",
+                         "applicationStatus": "IN_PROGRESS",
+                         "reminderTime": null
+                         }
+                        """)).andExpect(status().isOk()).andExpect(content().json("""
+                {"id": "test1",
+                "jobOfferID": "tester2",
+                "resume": "resume",
+                "coverLetter": "cover letter",
+                "applicationStatus": "IN_PROGRESS",
+                "reminderTime": null,
+                "dateOfCreation": "2020-01-01"}
+                """));
     }
 
     @Test
@@ -174,7 +174,7 @@ class ApplicationControllerTest {
         MockMultipartFile file = new MockMultipartFile(
                 "resume", "test.txt", "text/plain", "Hello, file content".getBytes()
         );
-        when(mockCloudinaryService.uploadFile(file)).thenReturn("success");
+        when(mockCloudinaryService.uploadPdfFile(file)).thenReturn("success");
         String actual = mockMvc.perform(
                         multipart("/api/application").file(meta).file(file)
                 )
@@ -197,8 +197,8 @@ class ApplicationControllerTest {
     @Test
     void expectSuccessfulPostWithTwoFiles() throws Exception {
 
-        ApplicationDtoForCreated metadata =new ApplicationDtoForCreated("1a",null);
-        MockMultipartFile meta=new MockMultipartFile("meta","metadata",MediaType.APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(metadata).getBytes(StandardCharsets.UTF_8));
+        ApplicationDtoForCreated metadata = new ApplicationDtoForCreated("1a", null);
+        MockMultipartFile meta = new MockMultipartFile("meta", "metadata", MediaType.APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(metadata).getBytes(StandardCharsets.UTF_8));
 
         MockMultipartFile file = new MockMultipartFile(
                 "resume", "test.txt", "text/plain", "Hello, file content".getBytes()
@@ -206,8 +206,8 @@ class ApplicationControllerTest {
         MockMultipartFile coverLetter = new MockMultipartFile(
                 "coverLetter", "test.txt", "text/plain", "Hello, file content".getBytes()
         );
-        when(mockCloudinaryService.uploadFile(file)).thenReturn("success");
-        when(mockCloudinaryService.uploadFile(coverLetter)).thenReturn("cl is there");
+        when(mockCloudinaryService.uploadPdfFile(file)).thenReturn("success");
+        when(mockCloudinaryService.uploadPdfFile(coverLetter)).thenReturn("cl is there");
         String actual = mockMvc.perform(
                         multipart("/api/application").file(meta).file(file).file(coverLetter)
                 )
