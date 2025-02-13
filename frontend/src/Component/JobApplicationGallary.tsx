@@ -1,16 +1,13 @@
-import axios from "axios";
-
 import {useEffect, useState} from "react";
-import "/src/App.css"
-
 import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
+import axios from "axios";
 import JobApplicationCard from "./JobApplicationCard.tsx";
 
-export function DashViewApplication() {
+export default function JobApplicationGallary() {
     const [odata, setOdata] = useState<JobApplicationTracker[]>([])
 
     function getApplications() {
-        axios.get<JobApplicationTracker[]>("/api/JobApplication/dash").then(
+        axios.get<JobApplicationTracker[]>("/api/JobApplication/all").then(
             (response) => {
                 setOdata(response.data)
             }
@@ -31,4 +28,5 @@ export function DashViewApplication() {
             {applicationCards}
         </div>
     )
+
 }
