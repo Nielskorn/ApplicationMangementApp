@@ -3,42 +3,48 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 import {Application} from "../types/Application.ts";
 
-export default function EditApplicationSite(){
-    const {id}=useParams<{id:string}>();
-    const [jobOfferID,setJobOfferID]=useState<string>("");
+export default function EditApplicationSite() {
+    const {id} = useParams<{ id: string }>();
+    const [jobOfferID, setJobOfferID] = useState<string>("");
 
-    const [resume,setResume]=useState<string>("");
-    const [coverLetter,setCoverLetter]=useState<string>("");
-    const [applicationStatus,setApplicationStatus]=useState<string>("");
-    const [reminderTime,setReminderTime]=useState<string>("")
+    const [resume, setResume] = useState<string>("");
+    const [coverLetter, setCoverLetter] = useState<string>("");
+    const [applicationStatus, setApplicationStatus] = useState<string>("");
+    const [reminderTime, setReminderTime] = useState<string>("")
 
-    useEffect(()=>{
-        const fetchApplication=async ()=>{
-            const response=await axios.get<Application>(`/api/application/${id}`);
+    useEffect(() => {
+        const fetchApplication = async () => {
+            const response = await axios.get<Application>(`/api/application/${id}`);
             setJobOfferID(response.data.jobOfferID);
             setResume(response.data.resume)
             setCoverLetter(response.data.coverLetter)
-            setApplicationStatus(response.data.appliStatus)
+            setApplicationStatus(response.data.applicationStatus)
             setReminderTime(response.data.dateOfCreation)
 
         };
         fetchApplication();
-    },[id])
-    function OnSubmit(event:FormEvent<HTMLFormElement>){
+    }, [id])
+
+    function OnSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.put("/api/application/"+id,{ jobOfferID:jobOfferID,resume:resume,
-            coverLetter: coverLetter,applicationStatus:applicationStatus, reminderTime: reminderTime
-        }).then().catch(error=>{console.log(error)})
+        axios.put("/api/application/" + id, {
+            jobOfferID: jobOfferID, resume: resume,
+            coverLetter: coverLetter, applicationStatus: applicationStatus, reminderTime: reminderTime
+        }).then().catch(error => {
+            console.log(error)
+        })
         OnReset()
     }
-    function OnReset(){
+
+    function OnReset() {
         setJobOfferID("")
         setCoverLetter("")
         setResume("")
         setApplicationStatus("OPEN")
         setReminderTime("")
     }
-    return(
+
+    return (
 
 
         <div>
@@ -48,7 +54,9 @@ export default function EditApplicationSite(){
                            value={jobOfferID}
                            placeholder="JobOfferID"
                            className="formField"
-                           onChange={event => {setJobOfferID(event.target.value)}}
+                           onChange={event => {
+                               setJobOfferID(event.target.value)
+                           }}
                     />
                 </label>
 
@@ -57,7 +65,9 @@ export default function EditApplicationSite(){
                            value={resume}
                            placeholder="resume"
                            className="formField"
-                           onChange={event => {setResume(event.target.value)}}
+                           onChange={event => {
+                               setResume(event.target.value)
+                           }}
                     />
                 </label>
                 <label> coverLetter
@@ -65,7 +75,9 @@ export default function EditApplicationSite(){
                            value={coverLetter}
                            placeholder="coverLetter"
                            className="formField"
-                           onChange={event => {setCoverLetter(event.target.value)}}
+                           onChange={event => {
+                               setCoverLetter(event.target.value)
+                           }}
                     />
                 </label>
                 <label> Status:
@@ -77,7 +89,8 @@ export default function EditApplicationSite(){
                     </select>
                 </label>
                 <label>ReminderTime:
-                    <input type={"datetime-local"} value={reminderTime} onChange={event=> setReminderTime(event.target.value)}/>
+                    <input type={"datetime-local"} value={reminderTime}
+                           onChange={event => setReminderTime(event.target.value)}/>
                 </label>
                 <button type={"submit"}>edit Application</button>
                 <button type={"reset"}>reset Form</button>
