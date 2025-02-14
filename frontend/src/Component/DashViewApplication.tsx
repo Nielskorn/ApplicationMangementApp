@@ -7,7 +7,7 @@ import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
 import JobApplicationCard from "./JobApplicationCard.tsx";
 
 export function DashViewApplication() {
-    const [ApplicationTrackerData, setApplicationTrackerData] = useState<JobApplicationTracker[]>([])
+    const [applicationTrackerData, setApplicationTrackerData] = useState<JobApplicationTracker[]>([])
 
     function getApplications() {
         axios.get<JobApplicationTracker[]>("/api/JobApplication/dash").then(
@@ -17,7 +17,7 @@ export function DashViewApplication() {
         )
     }
 
-    const applicationCards = ApplicationTrackerData.map((application) => (
+    const applicationCards = applicationTrackerData.map((application) => (
         <li className="JobapplicationCard" key={application.application.id}>
             <JobApplicationCard JobApplication={application}/>
         </li>));

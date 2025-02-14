@@ -29,6 +29,11 @@ public class JobApplicationTrackerController {
         return jobApplicationTrackerService.getAllJobApplications();
     }
 
+    @GetMapping("/dash")
+    public List<JobApplicationTracker> get5JobApplicationsWithNextDate() {
+        return jobApplicationTrackerService.get5JobApplicationsWithNextDate();
+    }
+
     @GetMapping("/{id}")
     public JobApplicationTracker getJobApplication(@PathVariable String id) throws NoSuchId {
         return jobApplicationTrackerService.getJobApplicationByApplicationId(id);
