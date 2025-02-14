@@ -30,8 +30,8 @@ public class JobApplicationTrackerController {
     }
 
     @GetMapping("/dash")
-    public List<JobApplicationTracker> get5JobApplicationsWithNextDate() {
-        return jobApplicationTrackerService.get5JobApplicationsWithNextDate();
+    public List<JobApplicationTracker> get6JobApplicationsWithNextDate() {
+        return jobApplicationTrackerService.get6JobApplicationsWithNextDate();
     }
 
     @GetMapping("/{id}")

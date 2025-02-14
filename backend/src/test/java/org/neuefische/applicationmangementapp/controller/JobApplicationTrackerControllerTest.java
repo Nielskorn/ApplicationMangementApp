@@ -14,6 +14,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -187,5 +188,121 @@ class JobApplicationTrackerControllerTest {
                         """)
                 );
 
+    }
+
+    @Test
+    @DirtiesContext
+    void testGet6JobApploicationWithNextReminder() throws Exception {
+        applicationRepo.saveAll(List.of(
+                new Application(
+                        "testA",
+                        "JOB54321",
+                        "Lebenslauf_Thomas_Meyer.pdf",
+                        "Anschreiben_Thomas_Meyer.pdf",
+                        ApplicationStatus.OPEN,
+                        LocalDateTime.of(2025, 2, 25, 8, 0),
+                        LocalDate.of(2025, 2, 12)
+                )
+                , new Application("testB",
+                        "JOB12345",
+                        "Lebenslauf_Max_Mustermann.pdf",
+                        "Anschreiben_Max_Mustermann.pdf",
+                        ApplicationStatus.IN_PROGRESS,
+                        LocalDateTime.of(2025, 2, 20, 9, 0),
+                        LocalDate.of(2025, 2, 10)
+                ), new Application(
+                        "testC",
+                        "JOB67890",
+                        "Lebenslauf_Anna_Schmidt.pdf",
+                        "Anschreiben_Anna_Schmidt.pdf",
+                        ApplicationStatus.OPEN,
+                        null,
+                        LocalDate.of(2025, 2, 11)
+                )
+        ));
+        jobOfferRepo.saveAll(List.of(
+                        new JobOffer(
+                                "JOB123456",
+                                "https://example.com/logo_company_a.png",
+                                "Company A",
+                                "Berlin, Germany",
+                                "Software Engineer",
+                                "Entwicklung von Webanwendungen und Cloud-Services.",
+                                "https://example.com/job12345"),
+                        new JobOffer(
+                                "JOB67890",
+                                "https://example.com/logo_company_b.png",
+                                "Company B",
+                                "München, Germany",
+                                "Data Scientist",
+                                "Analyse von Daten und Erstellung von Machine-Learning-Modellen.",
+                                "https://example.com/job67890"
+                        ), new JobOffer(
+                                "JOB54321",
+                                "https://example.com/logo_company_c.png",
+                                "Company C",
+                                "Hamburg, Germany",
+                                "Product Manager",
+                                "Verantwortung für die Produktstrategie und -entwicklung.",
+                                "https://example.com/job54321"
+                        )
+                )
+
+        );
+
+        mockMvc.perform(get("/api/JobApplication/dash"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        [
+                        {"jobOffer": null,
+                        "application":{
+                        "id": "testB",
+                        "jobOfferID": "JOB12345",
+                        "resume": "Lebenslauf_Max_Mustermann.pdf",
+                        "coverLetter": "Anschreiben_Max_Mustermann.pdf",
+                        "applicationStatus": "IN_PROGRESS",
+                        "reminderTime": "2025-02-20T09:00:00",
+                        "dateOfCreation": "2025-02-10"
+                        }
+                        },
+                        {"jobOffer": {
+                        "id": "JOB54321",
+                        "Url_companyLogo":"https://example.com/logo_company_c.png",
+                        "companyName": "Company C",
+                        "location": "Hamburg, Germany",
+                        "jobTitle": "Product Manager",
+                        "jobDescription": "Verantwortung für die Produktstrategie und -entwicklung.",
+                        "LinkJobAd": "https://example.com/job54321"
+                        },
+                        "application":{ "id": "testA",
+                        "jobOfferID": "JOB54321",
+                        "resume": "Lebenslauf_Thomas_Meyer.pdf",
+                        "coverLetter": "Anschreiben_Thomas_Meyer.pdf",
+                        "applicationStatus": "OPEN",
+                        "reminderTime": "2025-02-25T08:00:00",
+                        "dateOfCreation": "2025-02-12"}
+                         }
+                        ,{"jobOffer": {
+                        "id": "JOB67890",
+                        "Url_companyLogo":"https://example.com/logo_company_b.png",
+                        "companyName": "Company B",
+                        "location": "München, Germany",
+                        "jobTitle":  "Data Scientist",
+                        "jobDescription":  "Analyse von Daten und Erstellung von Machine-Learning-Modellen.",
+                        "LinkJobAd": "https://example.com/job67890"
+                        },
+                        "application":{
+                         "id": "testC",
+                        "jobOfferID": "JOB67890",
+                        "resume": "Lebenslauf_Anna_Schmidt.pdf",
+                        "coverLetter":  "Anschreiben_Anna_Schmidt.pdf",
+                        "applicationStatus":  "OPEN",
+                        "reminderTime": null,
+                        "dateOfCreation": "2025-02-11"
+                        
+                        } }
+                        ]
+                        
+                        """));
     }
 }

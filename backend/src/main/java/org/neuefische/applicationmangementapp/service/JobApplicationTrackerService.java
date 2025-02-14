@@ -61,7 +61,7 @@ public class JobApplicationTrackerService {
 
     }
 
-    public List<JobApplicationTracker> get5JobApplicationsWithNextDate() {
+    public List<JobApplicationTracker> get6JobApplicationsWithNextDate() {
         List<JobApplicationTracker> allApplications = getApplications(true);
         allApplications.sort(Comparator.comparing(
                 jobApplicationTracker -> jobApplicationTracker.application()
