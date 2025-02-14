@@ -1,23 +1,20 @@
-import axios from "axios";
-
 import {useEffect, useState} from "react";
-import "/src/App.css"
-
 import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
+import axios from "axios";
 import JobApplicationCard from "./JobApplicationCard.tsx";
 
-export function DashViewApplication() {
-    const [ApplicationTrackerData, setApplicationTrackerData] = useState<JobApplicationTracker[]>([])
+export default function JobApplicationGallary() {
+    const [jobApplicationData, setJobApplicationData] = useState<JobApplicationTracker[]>([])
 
     function getApplications() {
-        axios.get<JobApplicationTracker[]>("/api/JobApplication/dash").then(
+        axios.get<JobApplicationTracker[]>("/api/JobApplication/all").then(
             (response) => {
-                setApplicationTrackerData(response.data)
+                setJobApplicationData(response.data)
             }
         )
     }
 
-    const applicationCards = ApplicationTrackerData.map((application) => (
+    const applicationCards = jobApplicationData.map((application) => (
         <li className="JobapplicationCard" key={application.application.id}>
             <JobApplicationCard JobApplication={application}/>
         </li>));
@@ -27,8 +24,11 @@ export function DashViewApplication() {
 
     }, []);
     return (
-        <ul className="ulWithNoBullets">
-            {applicationCards}
-        </ul>
+        <div>
+            <ul className="ulWithNoBullets">
+                {applicationCards}
+            </ul>
+        </div>
     )
+
 }

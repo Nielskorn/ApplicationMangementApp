@@ -49,10 +49,17 @@
     color: #888;
 }
 
+.ulWithNoBullets {
+    list-style: none;
+}
+
 .JobapplicationCard {
     border-radius: 20px;
     border: solid white;
     padding: 5px;
+    margin: 5px;
+    gap: 10px;
+
 
 }
 
@@ -117,3 +124,28 @@
 
 }
 
+.JobapplicationDetailsCard {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.jobOfferPart {
+
+    width: 45%;
+}
+
+.applicationPart {
+    width: 45%;
+
+}
+
+.switch-label {
+
+    font-size: x-large;
+    margin: 10px;
+    padding: 10px;
+    gap: 5px;
+}

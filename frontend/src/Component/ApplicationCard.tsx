@@ -1,21 +1,25 @@
 import {Application} from "../types/Application.ts";
 import {useNavigate} from "react-router-dom";
 import "../App.css"
-type jobApplicationCardProps={
-    application:Application;
+import StatusIndicator from "./StatusIndicator.tsx";
+
+type JobApplicationCardProps = {
+    application: Application;
 }
 
-export default function ApplicationCard({application}: Readonly<jobApplicationCardProps>){
-    const navigate=useNavigate();
+export default function ApplicationCard({application}: Readonly<JobApplicationCardProps>) {
+    const navigate = useNavigate();
+
     function navigateToDetailspage() {
         navigate("/application/" + application.id);
     }
 
 
-    return(
-        <div className="applicationCard" onClick={navigateToDetailspage} onKeyDown={navigateToDetailspage}>
+    return (
+        <div className="applicationCard">
             <h2>{application.jobOfferID}</h2>
-            <p>{"Status="+application.applicationStatus}</p>
+            <p>status: <StatusIndicator status={application.applicationStatus}/></p>
+            <button onClick={navigateToDetailspage}>Go to Details</button>
         </div>
     )
 }

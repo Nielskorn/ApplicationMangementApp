@@ -1,62 +1,69 @@
 import {FormEvent, useState} from "react";
 import axios from "axios";
 
-export default function NewJobOfferPage(){
-    const [companyName,setCompanyName]=useState<string>("")
-    const [location,setLocation]=useState<string>("")
-    const [jobTitle,setJobTitle]=useState<string>("")
-    const [jobDescription,setJobDescription]=useState<string>("")
-    const [companyLogoUrl,setCompanyLogoUrl]=useState<string>("")
-    const [linkJobAd,setLinkJobAd]=useState<string>()
-function OnReset(){
-        setCompanyName("")
-    setJobTitle("")
-    setJobDescription("")
-    setLocation("")
-    setCompanyLogoUrl("")
-    setLinkJobAd("")
+export default function NewJobOfferPage() {
+    const [companyName, setCompanyName] = useState<string>("")
+    const [location, setLocation] = useState<string>("")
+    const [jobTitle, setJobTitle] = useState<string>("")
+    const [jobDescription, setJobDescription] = useState<string>("")
+    const [companyLogoUrl, setCompanyLogoUrl] = useState<string>("")
+    const [linkJobAd, setLinkJobAd] = useState<string>()
 
-}
-    function OnSubmit(event:FormEvent<HTMLFormElement>){
+    function OnReset() {
+        setCompanyName("")
+        setJobTitle("")
+        setJobDescription("")
+        setLocation("")
+        setCompanyLogoUrl("")
+        setLinkJobAd("")
+
+    }
+
+    function OnSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post("api/job-offer",{
-            Url_companyLogo:companyLogoUrl
-            ,companyName: companyName,
+        axios.post("api/job-offer", {
+            Url_companyLogo: companyLogoUrl
+            , companyName: companyName,
             location: location, jobTitle: jobTitle, jobDescription: jobDescription, LinkJobAd: linkJobAd
-        }).then().catch(error=>{console.error(error)})
+        }).then().catch(error => {
+            console.error(error)
+        })
         OnReset()
     }
-    return(
+
+    return (
         <div>
             <form className="addJobOfferForm" onSubmit={OnSubmit} onReset={OnReset}>
-                <input type={"text"}value={companyLogoUrl}placeholder="companyLogoUrl" onChange={(event)=>setCompanyLogoUrl(event.target.value)} />
+                <input type={"text"} value={companyLogoUrl} placeholder="companyLogoUrl"
+                       onChange={(event) => setCompanyLogoUrl(event.target.value)}/>
                 <input type={"text"}
                        value={companyName}
                        placeholder="CompanyName"
-                       onChange={(event)=>
+                       onChange={(event) =>
                            setCompanyName(event.target.value)}
                 />
                 <input type={"text"}
                        value={location}
                        placeholder="Location"
-                       onChange={(event)=>
+                       onChange={(event) =>
                            setLocation(event.target.value)}
                 />
                 <input type={"text"}
                        value={jobTitle}
                        placeholder="jobTitle"
-                       onChange={(event)=>
+                       onChange={(event) =>
                            setJobTitle(event.target.value)}
                 />
                 <input type={"text"}
-                value={linkJobAd}
-                placeholder="link to job ad"
-                onChange={(event)=>
-                    setLinkJobAd(event.target.value)}
+                       value={linkJobAd}
+                       placeholder="link to job ad"
+                       onChange={(event) =>
+                           setLinkJobAd(event.target.value)}
                 />
 
                 <label>JobDescription:
-                <textarea name="textareaJobDesc" rows={4}cols={4} onChange={event =>  setJobDescription(event.target.value)}/>
+                    <textarea name="textareaJobDesc" rows={4} cols={4}
+                              onChange={event => setJobDescription(event.target.value)}/>
                 </label>
                 <button type={"submit"}>create Job offer</button>
                 <button type={"reset"}>reset Form</button>
