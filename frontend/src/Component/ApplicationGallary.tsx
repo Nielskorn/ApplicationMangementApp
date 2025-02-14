@@ -8,14 +8,14 @@ type ApplicationGalleryProps = {
 
 }
 export default function ApplicationGallery({applications}: Readonly<ApplicationGalleryProps>) {
-    const applicationCards = applications.map((application: Application) => (<div key={application.id}>
+    const applicationCards = applications.map((application: Application) => (<li key={application.id}>
         <ApplicationCard application={application}/>
 
-    </div>));
+    </li>));
 
-    return (<>
+    return (<ul className="ulWithNoBullets">
 
         {applicationCards}
 
-    </>)
+    </ul>)
 }

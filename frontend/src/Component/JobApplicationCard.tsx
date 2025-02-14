@@ -24,7 +24,7 @@ export default function JobApplicationCard({JobApplication}: Readonly<jobApplica
             </div>)
             }
             <p>Next Reminder Date: {JobApplication.application.reminderTime}</p>
-            status: <StatusIndicator status={JobApplication.application.applicationStatus}/>
+            <p> status: <StatusIndicator status={JobApplication.application.applicationStatus}/></p>
             <button onClick={navigateToDetailsPage}>Go to Details</button>
         </div>
     )

@@ -7,12 +7,8 @@ type jobOfferCardProps = {
 export default function JobOfferCard({jobOffer}: Readonly<jobOfferCardProps>) {
     const navigate = useNavigate();
 
-    function navigateToJobOfferDetails() {
-        navigate("/joboffer/" + jobOffer.id)
-    }
-
-    function navigateToNewApplicationPage() {
-        navigate("/newApplication/" + jobOffer.id)
+    function navigateTo(path: string): void {
+        navigate(`/${path}/${jobOffer.id}`)
     }
 
     return (
@@ -21,8 +17,8 @@ export default function JobOfferCard({jobOffer}: Readonly<jobOfferCardProps>) {
             <h2>{jobOffer.jobTitle}</h2>
             <h2>{jobOffer.companyName}</h2>
             <p>{jobOffer.LinkJobAd}</p>
-            <button onClick={navigateToJobOfferDetails}>View Details</button>
-            <button onClick={navigateToNewApplicationPage}>Apply</button>
+            <button onClick={() => navigateTo("joboffer")}>View Details</button>
+            <button onClick={() => navigateTo("newApplication")}>Apply</button>
         </div>
     )
 }

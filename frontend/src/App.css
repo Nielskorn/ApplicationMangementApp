@@ -49,12 +49,17 @@
     color: #888;
 }
 
+.ulWithNoBullets {
+    list-style: none;
+}
+
 .JobapplicationCard {
     border-radius: 20px;
     border: solid white;
     padding: 5px;
     margin: 5px;
     gap: 10px;
+
 
 }
 

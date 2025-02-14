@@ -3,11 +3,11 @@ import {useNavigate} from "react-router-dom";
 import "../App.css"
 import StatusIndicator from "./StatusIndicator.tsx";
 
-type jobApplicationCardProps = {
+type JobApplicationCardProps = {
     application: Application;
 }
 
-export default function ApplicationCard({application}: Readonly<jobApplicationCardProps>) {
+export default function ApplicationCard({application}: Readonly<JobApplicationCardProps>) {
     const navigate = useNavigate();
 
     function navigateToDetailspage() {
@@ -18,7 +18,7 @@ export default function ApplicationCard({application}: Readonly<jobApplicationCa
     return (
         <div className="applicationCard">
             <h2>{application.jobOfferID}</h2>
-            status: <StatusIndicator status={application.applicationStatus}/>
+            <p>status: <StatusIndicator status={application.applicationStatus}/></p>
             <button onClick={navigateToDetailspage}>Go to Details</button>
         </div>
     )

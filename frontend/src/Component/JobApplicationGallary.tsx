@@ -4,20 +4,20 @@ import axios from "axios";
 import JobApplicationCard from "./JobApplicationCard.tsx";
 
 export default function JobApplicationGallary() {
-    const [odata, setOdata] = useState<JobApplicationTracker[]>([])
+    const [jobApplicationData, setJobApplicationData] = useState<JobApplicationTracker[]>([])
 
     function getApplications() {
         axios.get<JobApplicationTracker[]>("/api/JobApplication/all").then(
             (response) => {
-                setOdata(response.data)
+                setJobApplicationData(response.data)
             }
         )
     }
 
-    const applicationCards = odata.map((application) => (
-        <div className="JobapplicationCard" key={application.application.id}>
+    const applicationCards = jobApplicationData.map((application) => (
+        <li className="JobapplicationCard" key={application.application.id}>
             <JobApplicationCard JobApplication={application}/>
-        </div>));
+        </li>));
 
     useEffect(() => {
         getApplications()
@@ -25,7 +25,9 @@ export default function JobApplicationGallary() {
     }, []);
     return (
         <div>
-            {applicationCards}
+            <ul className="ulWithNoBullets">
+                {applicationCards}
+            </ul>
         </div>
     )
 

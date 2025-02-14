@@ -7,28 +7,28 @@ import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
 import JobApplicationCard from "./JobApplicationCard.tsx";
 
 export function DashViewApplication() {
-    const [odata, setOdata] = useState<JobApplicationTracker[]>([])
+    const [ApplicationTrackerData, setApplicationTrackerData] = useState<JobApplicationTracker[]>([])
 
     function getApplications() {
         axios.get<JobApplicationTracker[]>("/api/JobApplication/dash").then(
             (response) => {
-                setOdata(response.data)
+                setApplicationTrackerData(response.data)
             }
         )
     }
 
-    const applicationCards = odata.map((application) => (
-        <div className="JobapplicationCard" key={application.application.id}>
+    const applicationCards = ApplicationTrackerData.map((application) => (
+        <li className="JobapplicationCard" key={application.application.id}>
             <JobApplicationCard JobApplication={application}/>
-        </div>));
+        </li>));
 
     useEffect(() => {
         getApplications()
 
     }, []);
     return (
-        <div>
+        <ul className="ulWithNoBullets">
             {applicationCards}
-        </div>
+        </ul>
     )
 }
