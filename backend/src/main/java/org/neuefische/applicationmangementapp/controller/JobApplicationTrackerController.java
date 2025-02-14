@@ -20,13 +20,11 @@ public class JobApplicationTrackerController {
     }
 
     @GetMapping
-
     public List<JobApplicationTracker> getAllJobApplicationsWithAOffer() {
         return jobApplicationTrackerService.getJobApplications();
     }
 
     @GetMapping("all")
-
     public List<JobApplicationTracker> getAllJobApplications() {
         return jobApplicationTrackerService.getAllJobApplications();
     }
