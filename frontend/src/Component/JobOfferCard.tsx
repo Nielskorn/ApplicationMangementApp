@@ -1,17 +1,21 @@
 import {useNavigate} from "react-router-dom";
 import {JobOffer} from "../types/JobOffer.ts";
-type jobOfferCardProps={
-    jobOffer:JobOffer
+
+type jobOfferCardProps = {
+    jobOffer: JobOffer
 }
-export default function JobOfferCard({jobOffer}:Readonly<jobOfferCardProps>){
-    const navigate=useNavigate();
-    function navigateToJobOfferDetails(){
-        navigate("/joboffer/"+jobOffer.id)
+export default function JobOfferCard({jobOffer}: Readonly<jobOfferCardProps>) {
+    const navigate = useNavigate();
+
+    function navigateToJobOfferDetails() {
+        navigate("/joboffer/" + jobOffer.id)
     }
-    function navigateToNewApplicationPage(){
-        navigate("/newApplication/"+jobOffer.id)
+
+    function navigateToNewApplicationPage() {
+        navigate("/newApplication/" + jobOffer.id)
     }
-    return(
+
+    return (
         <div>
             <img src={jobOffer.Url_companyLogo} alt={jobOffer.companyName}/>
             <h2>{jobOffer.jobTitle}</h2>
