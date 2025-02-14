@@ -14,7 +14,7 @@ import JobDetailsPage from "./Page/JobDetailsPage.tsx";
 import {ApplicationPage} from "./Page/ApplicationPage.tsx";
 import Header from "./Component/Header.tsx";
 import JobApplicationDetails from "./Page/JobApplicationDetails.tsx";
-import JobApplicationPage from "./Page/JobApplicationPage.tsx";
+
 
 function App() {
 
@@ -37,7 +37,7 @@ function App() {
                     <Route path="/newApplication" element={<NewApplicationSite/>}/>
                     <Route path="/newApplication/:id" element={<NewApplicationSite/>}/>
                     <Route path="/editApplication/:id" element={<EditApplicationSite/>}/>
-                    <Route path="/jobApplication" element={<JobApplicationPage/>}/>
+                   
                     <Route path="/jobApplication/:id" element={<JobApplicationDetails/>}/>
                 </Routes>
             </main>
