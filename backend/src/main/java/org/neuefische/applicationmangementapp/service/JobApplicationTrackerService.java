@@ -8,6 +8,7 @@ import org.neuefische.applicationmangementapp.model.JobOffer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,5 +60,16 @@ public class JobApplicationTrackerService {
         } else throw new NoSuchId(id + "By Application");
 
     }
+
+    public List<JobApplicationTracker> get6JobApplicationsWithNextDate() {
+        List<JobApplicationTracker> allApplications = getApplications(true);
+        allApplications.sort(Comparator.comparing(
+                jobApplicationTracker -> jobApplicationTracker.application()
+                        .reminderTime(), Comparator.nullsLast(Comparator.naturalOrder())));
+
+        return allApplications.size() > 6 ? allApplications.subList(0, 6) : allApplications;
+
+    }
+
 
 }

@@ -19,7 +19,7 @@ export default function JobApplicationDetails() {
 
     useEffect(() => {
         fetchJobApplication()
-    });
+    }, []);
     const navigate = useNavigate();
 
     function navigateToAppplicationEditpage() {
