@@ -7,4 +7,8 @@ public record JobApplicationTracker(
         Application application,
         List<Note> notes
 ) {
+    @Override
+    public String toString() {
+        return "jobApplicationTracker" + (application.reminderTime() != null ? application.reminderTime() : null);
+    }
 }
