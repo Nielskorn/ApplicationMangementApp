@@ -1,5 +1,6 @@
 package org.neuefische.applicationmangementapp.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,6 +34,8 @@ class NotesControllerTest {
     private NoteRepo noteRepo;
     @Autowired
     private ApplicationRepo applicationRepo;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @DirtiesContext
@@ -149,5 +153,54 @@ class NotesControllerTest {
                 andExpect(result ->
                         assertInstanceOf(NoSuchId.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("no such id:")));
+    }
+
+    @Test
+    @DirtiesContext
+    void expectSuccessfulPost() throws Exception {
+        applicationRepo.save(new Application("AIdTest", "testJOID", "text.pdf", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 3, 4)));
+        String actual = mockMvc.perform(
+                        post("/api/note")
+                                .contentType(MediaType.APPLICATION_JSON).content("""
+                                        
+                                                                        {
+                                        "applicationId": "AIdTest",
+                                        "notes": "thisIsATestNote"
+                                        }
+                                        """)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        
+                        {
+                        "applicationId":"AIdTest",
+                        "notes": "thisIsATestNote"
+                        }
+                        """)).andReturn().getResponse().getContentAsString();
+        Note note = objectMapper.readValue(actual, Note.class);
+        assertThat(note.id()).isNotBlank();
+    }
+
+    @Test
+    @DirtiesContext
+    void expectErrorPost() throws Exception {
+
+        mockMvc.perform(
+                        post("/api/note")
+                                .contentType(MediaType.APPLICATION_JSON).content("""
+                                        
+                                                                        {
+                                        "applicationId": "AIdTest",
+                                        "notes": "thisIsATestNote"
+                                        }
+                                        """)
+                )
+                .andExpect(status().isNotFound()).
+                andExpect(result -> assertInstanceOf(NoSuchId.class, result.getResolvedException()))
+                .andExpect(result ->
+                        assertTrue(result.getResolvedException()
+                                .getMessage()
+                                .contains("no such id:")));
+
     }
 }
