@@ -10,8 +10,8 @@ import java.util.List;
 
 @Service
 public class NoteService {
-    private NoteRepo noteRepo;
-    private ApplicationService applicationService;
+    private final NoteRepo noteRepo;
+    private final ApplicationService applicationService;
 
     public NoteService(NoteRepo noteRepo, ApplicationService applicationService) {
         this.noteRepo = noteRepo;
@@ -38,7 +38,7 @@ public class NoteService {
     public Note updateNodeOnApplication(String id, NoteDto noteDto) throws NoSuchId {
         noteRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
         if (applicationService.getOptionalApplicationById(noteDto.applicationId()).isPresent()) {
-            Note note = new Note(IdService.getId(), noteDto.applicationId(), noteDto.notes());
+            Note note = new Note(id, noteDto.applicationId(), noteDto.notes());
             return noteRepo.save(note);
         } else {
             throw new NoSuchId(noteDto.applicationId() + " no Application with that Id");
@@ -46,5 +46,10 @@ public class NoteService {
         }
     }
 
+    public void deleteNodeById(String id) throws NoSuchId {
+        noteRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
+        noteRepo.deleteById(id);
+
+    }
 }
 

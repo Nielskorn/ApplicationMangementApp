@@ -18,7 +18,7 @@ public class NoteController {
     }
 
     @GetMapping("/getNodesByApplication/{id}")
-    public List<Note> getNotesByApplicationIdId(@PathVariable String id) throws NoSuchId {
+    public List<Note> getNotesByApplicationIdId(@PathVariable String id) {
         return noteService.getNotesByApplicationId(id);
     }
 
@@ -35,5 +35,10 @@ public class NoteController {
     @PutMapping("/{id}")
     public Note updateNodeOnApplication(@PathVariable String id, @RequestBody NoteDto notes) throws NoSuchId {
         return noteService.updateNodeOnApplication(id, notes);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNodeOnApplication(@PathVariable String id) throws NoSuchId {
+        noteService.deleteNodeById(id);
     }
 }

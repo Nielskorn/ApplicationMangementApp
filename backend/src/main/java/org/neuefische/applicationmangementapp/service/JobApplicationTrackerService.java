@@ -36,21 +36,24 @@ public class JobApplicationTrackerService {
 
     public List<JobApplicationTracker> getApplications(boolean getAll) {
         List<JobApplicationTracker> jobApplicationTrackers = new ArrayList<>();
-        JobOffer jobOffer = null;
+
         List<Application> appli = applicationService.getAllApplications();
         for (Application app : appli) {
             Optional<JobOffer> optionalJobOffer = jobOfferService.getOJobOfferById(app.jobOfferID());
+            JobOffer jobOffer = optionalJobOffer.orElse(null);
+            JobApplicationTracker tracker;
             List<Note> noteList = noteService.getNotesByApplicationId(app.id());
-            if (optionalJobOffer.isPresent()) {
-                jobOffer = optionalJobOffer.get();
-            }
-            if (!noteList.isEmpty()) {
-                jobApplicationTrackers.add(new JobApplicationTracker(jobOffer, app, noteList));
-            } else {
-                jobApplicationTrackers.add(new JobApplicationTracker(jobOffer, app, null));
-            }
 
+            if (!noteList.isEmpty()) {
+                tracker = new JobApplicationTracker(jobOffer, app, noteList);
+            } else {
+                tracker = new JobApplicationTracker(jobOffer, app, null);
+            }
+            if (getAll || jobOffer != null) {
+                jobApplicationTrackers.add(tracker);
+            }
         }
+
         return jobApplicationTrackers;
     }
 
