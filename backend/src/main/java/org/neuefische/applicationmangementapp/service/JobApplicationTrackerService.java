@@ -5,6 +5,7 @@ import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.JobApplicationTracker;
 import org.neuefische.applicationmangementapp.model.JobOffer;
+import org.neuefische.applicationmangementapp.model.Note;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class JobApplicationTrackerService {
     final JobOfferService jobOfferService;
     final ApplicationService applicationService;
+    final NoteService noteService;
 
-    public JobApplicationTrackerService(JobOfferService jobOfferService, ApplicationService applicationService) {
+    public JobApplicationTrackerService(JobOfferService jobOfferService, ApplicationService applicationService, NoteService noteService) {
         this.jobOfferService = jobOfferService;
         this.applicationService = applicationService;
+        this.noteService = noteService;
     }
 
     public List<JobApplicationTracker> getJobApplications() {
@@ -33,29 +36,40 @@ public class JobApplicationTrackerService {
 
     public List<JobApplicationTracker> getApplications(boolean getAll) {
         List<JobApplicationTracker> jobApplicationTrackers = new ArrayList<>();
+
         List<Application> appli = applicationService.getAllApplications();
         for (Application app : appli) {
             Optional<JobOffer> optionalJobOffer = jobOfferService.getOJobOfferById(app.jobOfferID());
-            if (optionalJobOffer.isPresent()) {
-                JobOffer jobOffer = optionalJobOffer.get();
-                jobApplicationTrackers.add(new JobApplicationTracker(jobOffer, app));
-            } else if (getAll) {
-                jobApplicationTrackers.add(new JobApplicationTracker(null, app));
-            }
+            JobOffer jobOffer = optionalJobOffer.orElse(null);
+            JobApplicationTracker tracker;
+            List<Note> noteList = noteService.getNotesByApplicationId(app.id());
 
+            if (!noteList.isEmpty()) {
+                tracker = new JobApplicationTracker(jobOffer, app, noteList);
+            } else {
+                tracker = new JobApplicationTracker(jobOffer, app, null);
+            }
+            if (getAll || jobOffer != null) {
+                jobApplicationTrackers.add(tracker);
+            }
         }
+
         return jobApplicationTrackers;
     }
 
     public JobApplicationTracker getJobApplicationByApplicationId(String id) throws NoSuchId {
         Optional<Application> app = applicationService.getOptionalApplicationById(id);
         if (app.isPresent()) {
+            JobOffer jobOffer = null;
+            List<Note> noteList = noteService.getNotesByApplicationId(app.get().id());
             Optional<JobOffer> optionalJobOffer = jobOfferService.getOJobOfferById(app.get().jobOfferID());
             if (optionalJobOffer.isPresent()) {
-                JobOffer x = optionalJobOffer.get();
-                return new JobApplicationTracker(x, app.get());
+                jobOffer = optionalJobOffer.get();
+            }
+            if (!noteList.isEmpty()) {
+                return new JobApplicationTracker(jobOffer, app.get(), noteList);
             } else {
-                return new JobApplicationTracker(null, app.get());
+                return new JobApplicationTracker(jobOffer, app.get(), null);
             }
         } else throw new NoSuchId(id + "By Application");
 

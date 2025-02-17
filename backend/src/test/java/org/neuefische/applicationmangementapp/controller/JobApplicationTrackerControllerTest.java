@@ -39,8 +39,24 @@ class JobApplicationTrackerControllerTest {
     @Test
     @DirtiesContext
     void testGetAllJobApplicationTrackers() throws Exception {
-        applicationRepo.save(new Application("testA", "testJO", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
-        jobOfferRepo.save(new JobOffer("testJO", "test", "testC", "testdorf", "tester", "testing", "testlink"));
+        applicationRepo.save(
+                new Application(
+                        "testA",
+                        "testJO",
+                        "testCv", null,
+                        ApplicationStatus.OPEN, null,
+                        LocalDate.of(2025, 10, 10))
+        );
+        jobOfferRepo.save(
+                new JobOffer(
+                        "testJO",
+                        "test",
+                        "testC",
+                        "testdorf",
+                        "tester",
+                        "testing",
+                        "testlink")
+        );
         mockMvc.perform(get("/api/JobApplication")).andExpect(status().isOk()).andExpect(content().json("""
                 [
                   {
@@ -62,7 +78,7 @@ class JobApplicationTrackerControllerTest {
                         "applicationStatus":"OPEN",
                          "reminderTime": null,
                          "dateOfCreation": "2025-10-10"
-                 }
+                 },"notes":null
                  }
                 ]
                 """));
@@ -73,29 +89,34 @@ class JobApplicationTrackerControllerTest {
     void testGetJobApplicationTrackerById() throws Exception {
         applicationRepo.save(new Application("testA", "testJo", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
         jobOfferRepo.save(new JobOffer("testJo", "logoT", "cTest", "testLane", "tester2", "testing2", "testlink2"));
-        mockMvc.perform(get("/api/JobApplication/" + "testA")).andExpect(status().isOk()).andExpect(content().json("""
-                {
-                                            "jobOffer":
-                                              {
-                                                "id":"testJo",
-                                                "Url_companyLogo":"logoT",
-                                                "companyName": "cTest",
-                                                "location": "testLane",
-                                                "jobTitle": "tester2",
-                                                "jobDescription":"testing2",
-                                                "LinkJobAd": "testlink2"
-                                              },
-                                            "application":
-                                              {   "id":"testA",
-                                          "jobOfferID":"testJo",
-                                          "resume":"testCv",
-                                          "coverLetter": null,
-                                                "applicationStatus":"OPEN",
-                                                 "reminderTime": null,
-                                                 "dateOfCreation": "2025-10-10"
-                                         }
-                                         }
-                """));
+        mockMvc.perform(get("/api/JobApplication/" + "testA")).
+                andExpect(status().isOk()).
+                andExpect(content().
+                        json("""
+                                {
+                                                            "jobOffer":
+                                                              {
+                                                                "id":"testJo",
+                                                                "Url_companyLogo":"logoT",
+                                                                "companyName": "cTest",
+                                                                "location": "testLane",
+                                                                "jobTitle": "tester2",
+                                                                "jobDescription":"testing2",
+                                                                "LinkJobAd": "testlink2"
+                                                              },
+                                                            "application":
+                                                              {   "id":"testA",
+                                                          "jobOfferID":"testJo",
+                                                          "resume":"testCv",
+                                                          "coverLetter": null,
+                                                                "applicationStatus":"OPEN",
+                                                                 "reminderTime": null,
+                                                                 "dateOfCreation": "2025-10-10"
+                                                         },
+                                                         "notes":null
+                                                         }
+                                """)
+                );
     }
 
     @Test
@@ -103,47 +124,73 @@ class JobApplicationTrackerControllerTest {
     void testTryGetJobApplicationTrackerByApplicationIdExpectThrowNoSuchId() throws Exception {
         applicationRepo.save(new Application("testA", "testJo", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
         jobOfferRepo.save(new JobOffer("testJo", "logoT", "cTest", "testLane", "tester2", "testing2", "testlink2"));
-        mockMvc.perform(get("/api/JobApplication/" + "testB")).andExpect(status().isNotFound()).andExpect(result -> assertInstanceOf(NoSuchId.class, result.getResolvedException())).andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("no such id: " + "testB" + "By Application")));
+        mockMvc.perform(get("/api/JobApplication/" + "testB")).
+                andExpect(status().isNotFound()).
+                andExpect(result -> assertInstanceOf(NoSuchId.class, result.getResolvedException())
+                ).andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("no such id: " + "testB" + "By Application")));
     }
 
     @Test
     @DirtiesContext
     void testGetAllJobApplicationTracker() throws Exception {
-        applicationRepo.saveAll(List.of(new Application("testA", "testJO", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)), new Application("testB", "noId", "testCvB", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 11, 11))));
-        jobOfferRepo.saveAll(List.of(new JobOffer("testJO", "test", "testC", "testdorf", "tester", "testing", "testlink")));
-        mockMvc.perform(get("/api/JobApplication/all")).andExpect(status().isOk()).andExpect(content().json("""
-                                  [ { "jobOffer":
-                                              {
-                                                "id":"testJO",
-                                                "Url_companyLogo":"test",
-                                                "companyName": "testC",
-                                                "location": "testdorf",
-                                                "jobTitle": "tester",
-                                                "jobDescription":"testing",
-                                                "LinkJobAd": "testlink"
-                                              },
-                                            "application":
-                                              {   "id":"testA",
-                                          "jobOfferID":"testJO",
-                                          "resume":"testCv",
-                                          "coverLetter": null,
-                                                "applicationStatus":"OPEN",
+        applicationRepo.saveAll(List.of(
+                new Application("testA",
+                        "testJO",
+                        "testCv", null,
+                        ApplicationStatus.OPEN, null,
+                        LocalDate.of(2025, 10, 10))
+                , new Application("testB",
+                        "noId",
+                        "testCvB", null,
+                        ApplicationStatus.OPEN, null,
+                        LocalDate.of(2025, 11, 11)))
+        );
+        jobOfferRepo.saveAll(List.of(new JobOffer("testJO",
+                "test",
+                "testC",
+                "testdorf",
+                "tester",
+                "testing",
+                "testlink")));
+        mockMvc.perform(get("/api/JobApplication/all")).
+                andExpect(status().isOk()).
+                andExpect(content().json("""
+                                          [ { "jobOffer":
+                                                      {
+                                                        "id":"testJO",
+                                                        "Url_companyLogo":"test",
+                                                        "companyName": "testC",
+                                                        "location": "testdorf",
+                                                        "jobTitle": "tester",
+                                                        "jobDescription":"testing",
+                                                        "LinkJobAd": "testlink"
+                                                      },
+                                                    "application":
+                                                      {   "id":"testA",
+                                                  "jobOfferID":"testJO",
+                                                  "resume":"testCv",
+                                                  "coverLetter": null,
+                                                        "applicationStatus":"OPEN",
+                                                         "reminderTime": null,
+                                                         "dateOfCreation": "2025-10-10"
+                                                 },"notes":null
+                                                 }
+                                                 ,
+                                                 {
+                                                 jobOffer:null,
+                                                 "application":{
+                                                 "id":"testB",
+                                                 "jobOfferID":"noId",
+                                                 "resume":"testCvB",
+                                                 "coverLetter": null,
+                                                 "applicationStatus":"OPEN",
                                                  "reminderTime": null,
-                                                 "dateOfCreation": "2025-10-10"
-                                         }
-                                         }
-                                         ,{jobOffer:null,"application":{
-                                         "id":"testB",
-                                         "jobOfferID":"noId",
-                                         "resume":"testCvB",
-                                         "coverLetter": null,
-                                         "applicationStatus":"OPEN",
-                                         "reminderTime": null,
-                                         "dateOfCreation": "2025-11-11"
-                                         } }
-                
-                                         ]
-                """));
+                                                 "dateOfCreation": "2025-11-11"
+                                                 } }
+                        
+                                                 ]
+                        """)
+                );
 
     }
 
