@@ -113,7 +113,7 @@ class JobApplicationTrackerControllerTest {
                                                                  "reminderTime": null,
                                                                  "dateOfCreation": "2025-10-10"
                                                          },
-                                                         "notes":null
+                                                         "notes":[]
                                                          }
                                 """)
                 );

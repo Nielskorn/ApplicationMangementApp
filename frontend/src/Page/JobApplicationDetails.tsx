@@ -1,13 +1,15 @@
-import {useEffect, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {JobApplicationTracker} from "../types/JobApplicationTracker.ts";
 import axios from "axios";
 
 import {Link, useNavigate, useParams} from "react-router-dom";
 import StatusIndicator from "../Component/StatusIndicator.tsx";
+import NoteLine from "../Component/NoteLine.tsx";
 
 export default function JobApplicationDetails() {
     const [data, setData] = useState<JobApplicationTracker>()
     const {id} = useParams<{ id: string }>();
+    const [note, setNote] = useState<string>();
 
     function fetchJobApplication() {
         axios.get(`/api/JobApplication/${id}`).then(
@@ -21,6 +23,17 @@ export default function JobApplicationDetails() {
         fetchJobApplication()
     }, []);
     const navigate = useNavigate();
+
+    function onSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        axios.post("/api/note",
+            {
+                applicationId: id,
+                notes: note
+            }
+        )
+    }
+
 
     function navigateToAppplicationEditpage() {
         navigate("/editApplication/" + id);
@@ -38,6 +51,7 @@ export default function JobApplicationDetails() {
     function navigateToJobOfferDetails() {
         navigate("/joboffer/" + data.jobOffer.id)
     }
+
 
     if (data !== null && data !== undefined) {
         return (<>
@@ -68,7 +82,28 @@ export default function JobApplicationDetails() {
                         }
                         <button onClick={navigateToAppplicationEditpage}>Edit Application</button>
                         <button onClick={navigateToApplicationDetailspage}>go to Details</button>
+                        <div className="NodesPart">
+                            {data.notes ? (
+                                <ul className="ulWithNoBullets">
 
+                                    {data.notes.map((note) => <NoteLine key={note.id} id={note.id}
+                                                                        applicationId={note.applicationId}
+                                                                        notes={note.notes}/>)}
+
+
+                                </ul>) : null
+                            }
+                            <form onSubmit={onSubmit}>
+                                <label>note:</label>
+                                <br/>
+                                <textarea className="textAreaNote" rows={4} cols={4}
+                                          onChange={event => setNote(event.target.value)}
+                                />
+
+                                <br/>
+                                <button type={"submit"}>add Note</button>
+                            </form>
+                        </div>
 
                     </div>
                 </div>
