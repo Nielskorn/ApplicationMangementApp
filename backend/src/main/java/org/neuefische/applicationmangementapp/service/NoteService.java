@@ -26,7 +26,7 @@ public class NoteService {
         return noteRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
     }
 
-    public Note createNodeOnApplication(NoteDto noteDto) throws NoSuchId {
+    public Note createNoteOnApplication(NoteDto noteDto) throws NoSuchId {
         if (applicationService.getOptionalApplicationById(noteDto.applicationId()).isPresent()) {
             Note note = new Note(IdService.getId(), noteDto.applicationId(), noteDto.notes());
             return noteRepo.save(note);
@@ -35,7 +35,7 @@ public class NoteService {
         }
     }
 
-    public Note updateNodeOnApplication(String id, NoteDto noteDto) throws NoSuchId {
+    public Note updateNoteOnApplication(String id, NoteDto noteDto) throws NoSuchId {
         noteRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
         if (applicationService.getOptionalApplicationById(noteDto.applicationId()).isPresent()) {
             Note note = new Note(id, noteDto.applicationId(), noteDto.notes());
@@ -46,7 +46,7 @@ public class NoteService {
         }
     }
 
-    public void deleteNodeById(String id) throws NoSuchId {
+    public void deleteNoteById(String id) throws NoSuchId {
         noteRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
         noteRepo.deleteById(id);
 

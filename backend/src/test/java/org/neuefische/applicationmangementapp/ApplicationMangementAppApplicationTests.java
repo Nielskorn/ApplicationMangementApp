@@ -8,7 +8,7 @@ class ApplicationMangementAppApplicationTests {
 
     @Test
     void contextLoads() {
-        //test
+        //test only here because of SonarCube
     }
 
 }

@@ -28,17 +28,17 @@ public class NoteController {
     }
 
     @PostMapping()
-    public Note createNodeOnApplication(@RequestBody NoteDto notes) throws NoSuchId {
-        return noteService.createNodeOnApplication(notes);
+    public Note createNoteOnApplication(@RequestBody NoteDto notes) throws NoSuchId {
+        return noteService.createNoteOnApplication(notes);
     }
 
     @PutMapping("/{id}")
-    public Note updateNodeOnApplication(@PathVariable String id, @RequestBody NoteDto notes) throws NoSuchId {
-        return noteService.updateNodeOnApplication(id, notes);
+    public Note updateNoteOnApplication(@PathVariable String id, @RequestBody NoteDto notes) throws NoSuchId {
+        return noteService.updateNoteOnApplication(id, notes);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteNodeOnApplication(@PathVariable String id) throws NoSuchId {
-        noteService.deleteNodeById(id);
+    public void deleteNoteOnApplication(@PathVariable String id) throws NoSuchId {
+        noteService.deleteNoteById(id);
     }
 }
