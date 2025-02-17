@@ -85,7 +85,7 @@ jobs:
     needs: push-to-docker-hub
     environment:
       name: ApplicationManagementApp # Capstone Project name
-      url: https://neuefische.de/ # Link to deployment
+      url: https://application_management_app:latest.onrender.com/ # Link to deployment
     steps:
       - name: Trigger Render.com Deployment
         run: |
