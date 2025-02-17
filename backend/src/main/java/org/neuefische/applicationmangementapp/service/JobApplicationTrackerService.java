@@ -61,16 +61,14 @@ public class JobApplicationTrackerService {
         Optional<Application> app = applicationService.getOptionalApplicationById(id);
         if (app.isPresent()) {
             JobOffer jobOffer = null;
-            List<Note> noteList = noteService.getNotesByApplicationId(app.get().id());
+            List<Note> noteList = noteService.getNotesByApplicationId(id);
             Optional<JobOffer> optionalJobOffer = jobOfferService.getOJobOfferById(app.get().jobOfferID());
             if (optionalJobOffer.isPresent()) {
                 jobOffer = optionalJobOffer.get();
             }
-            if (!noteList.isEmpty()) {
-                return new JobApplicationTracker(jobOffer, app.get(), noteList);
-            } else {
-                return new JobApplicationTracker(jobOffer, app.get(), null);
-            }
+
+            return new JobApplicationTracker(jobOffer, app.get(), noteList);
+
         } else throw new NoSuchId(id + "By Application");
 
     }
