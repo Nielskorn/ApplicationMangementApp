@@ -1,3 +1,5 @@
+import {NavLink} from "react-router-dom";
+
 interface NavItemProps {
     label: string;
     href: string;
@@ -6,12 +8,9 @@ interface NavItemProps {
 }
 
 export const NavItem: React.FC<NavItemProps> = ({label, icon, href}) => (
-    <a href={href}
-       className={'nav-item'
-       }
-
-    >
+    <NavLink to={href} className={'nav-item'
+    }>
         {icon && <span className="icon">{icon}</span>}
         <span>{label}</span>
-    </a>
+    </NavLink>
 );
