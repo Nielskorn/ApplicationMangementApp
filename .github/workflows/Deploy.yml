@@ -3,7 +3,7 @@ name: "Deploy App"
 on:
   push:
     branches:
-             []
+            -master
     paths-ignore:
                .gitignore
                README.MD
