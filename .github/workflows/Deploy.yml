@@ -4,6 +4,7 @@ on:
   push:
     branches:
       -master
+      -RenderDeployment
     paths-ignore:
                .gitignore
                README.MD
