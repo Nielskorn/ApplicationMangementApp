@@ -31,11 +31,14 @@ export default function JobDetailsPage() {
     }
 
     function deleteJob() {
-        axios.delete(`/api/job-offer/${id}`).then(() => {
-            alert("deleted Successfuly");
-            navigate("/jobOffer")
-        })
-            .catch(error => console.error("error beim löschne" + error))
+        const isConfirmed = window.confirm("Bist du sicher, dass du dieses Jobangebot löschen möchtest?")
+        if (isConfirmed) {
+            axios.delete(`/api/job-offer/${id}`).then(() => {
+                alert("deleted Successfuly");
+                navigate("/jobOffer")
+            })
+                .catch(error => console.error("error beim löschne" + error))
+        }
     }
 
     useEffect(() => {
