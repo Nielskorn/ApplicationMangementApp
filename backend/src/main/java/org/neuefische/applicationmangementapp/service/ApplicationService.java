@@ -30,8 +30,8 @@ public class ApplicationService {
         String cloudinaryResumeUrl = cloudinaryService.uploadPdfFile(resume);
         Application application;
         if (coverLetter != null) {
-            String cloudinaryCoverletterUrl = cloudinaryService.uploadPdfFile(coverLetter);
-            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, cloudinaryCoverletterUrl, ApplicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
+            String cloudinaryCoverLetterUrl = cloudinaryService.uploadPdfFile(coverLetter);
+            application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, cloudinaryCoverLetterUrl, ApplicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
         } else {
             application = new Application(IdService.getId(), applicationDto.jobOfferID(), cloudinaryResumeUrl, null, ApplicationStatus.OPEN, applicationDto.reminderTime(), LocalDate.now());
         }
@@ -47,7 +47,7 @@ public class ApplicationService {
     public void deleteApplicationById(String id) throws NoSuchId, IOException {
         Application application = applicationRepo.findById(id).orElseThrow(() -> new NoSuchId(id));
 
-        if (multipyApplicationExistsIfTnisResume(application.resume())) {
+        if (multipleApplicationsExistForResume(application.resume())) {
             applicationRepo.deleteById(id);
         } else {
             applicationRepo.deleteById(id);
@@ -73,8 +73,8 @@ public class ApplicationService {
         return applicationRepo.findById(id);
     }
 
-    public boolean multipyApplicationExistsIfTnisResume(String resumeId) {
-        List<Application> listofAppWithCv = applicationRepo.findAllByResume(resumeId);
-        return (listofAppWithCv.size() > 1);
+    public boolean multipleApplicationsExistForResume(String resumeId) {
+        List<Application> listOfAppWithCv = applicationRepo.findAllByResume(resumeId);
+        return (listOfAppWithCv.size() > 1);
     }
 }
