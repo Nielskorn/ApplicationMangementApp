@@ -50,7 +50,7 @@ export default function Applicationdetails() {
         if (isConfirmed) {
             try {
                 axios.delete(`/api/application/${id}`)
-                alert("application Gelöscht")
+                alert("application deleted")
                 navigate("/");
             } catch (error) {
                 console.error("fehler Beim löschen:", error);
