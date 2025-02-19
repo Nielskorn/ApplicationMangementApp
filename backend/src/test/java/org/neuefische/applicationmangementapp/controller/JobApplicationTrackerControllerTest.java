@@ -5,8 +5,10 @@ import org.neuefische.applicationmangementapp.exceptions.NoSuchId;
 import org.neuefische.applicationmangementapp.model.Application;
 import org.neuefische.applicationmangementapp.model.ApplicationStatus;
 import org.neuefische.applicationmangementapp.model.JobOffer;
+import org.neuefische.applicationmangementapp.model.Note;
 import org.neuefische.applicationmangementapp.repo.ApplicationRepo;
 import org.neuefische.applicationmangementapp.repo.JobOfferRepo;
+import org.neuefische.applicationmangementapp.repo.NoteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +37,8 @@ class JobApplicationTrackerControllerTest {
 
     @Autowired
     private JobOfferRepo jobOfferRepo;
+    @Autowired
+    private NoteRepo noteRepo;
 
     @Test
     @DirtiesContext
@@ -132,6 +136,33 @@ class JobApplicationTrackerControllerTest {
 
     @Test
     @DirtiesContext
+    void testTryGetJobApplicationTrackerByApplicationIdWithNoJobOffer() throws Exception {
+        applicationRepo.save(new Application("testA", "testJo", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
+        mockMvc.perform(get("/api/JobApplication/" + "testA")).
+                andExpect(status().isOk()).
+                andExpect(content().
+                        json("""
+                                {
+                                                            "jobOffer":null,
+                                                            "application":
+                                                              {
+                                                                "id":"testA",
+                                                          "jobOfferID":"testJo",
+                                                          "resume":"testCv",
+                                                          "coverLetter": null,
+                                                                "applicationStatus":"OPEN",
+                                                                 "reminderTime": null,
+                                                                 "dateOfCreation": "2025-10-10"
+                                                         },
+                                                         "notes":[]
+                                                         }
+                                """)
+                );
+
+    }
+
+    @Test
+    @DirtiesContext
     void testGetAllJobApplicationTracker() throws Exception {
         applicationRepo.saveAll(List.of(
                 new Application("testA",
@@ -143,7 +174,8 @@ class JobApplicationTrackerControllerTest {
                         "noId",
                         "testCvB", null,
                         ApplicationStatus.OPEN, null,
-                        LocalDate.of(2025, 11, 11)))
+                        LocalDate.of(2025, 11, 11))
+                , new Application("testC", "testJo2", "testC_Cv.pdf", null, ApplicationStatus.IN_PROGRESS, null, LocalDate.of(2025, 2, 19)))
         );
         jobOfferRepo.saveAll(List.of(new JobOffer("testJO",
                 "test",
@@ -151,7 +183,8 @@ class JobApplicationTrackerControllerTest {
                 "testdorf",
                 "tester",
                 "testing",
-                "testlink")));
+                "testlink"), new JobOffer("testJo2", "c2testLogo", "C2Test", "teststadt", "Tester", "testing", "www.C2Test.com")));
+        noteRepo.save(new Note("nid1", "testC", "testnote"));
         mockMvc.perform(get("/api/JobApplication/all")).
                 andExpect(status().isOk()).
                 andExpect(content().json("""
@@ -173,7 +206,7 @@ class JobApplicationTrackerControllerTest {
                                                         "applicationStatus":"OPEN",
                                                          "reminderTime": null,
                                                          "dateOfCreation": "2025-10-10"
-                                                 },"notes":null
+                                                 }
                                                  }
                                                  ,
                                                  {
@@ -186,7 +219,28 @@ class JobApplicationTrackerControllerTest {
                                                  "applicationStatus":"OPEN",
                                                  "reminderTime": null,
                                                  "dateOfCreation": "2025-11-11"
-                                                 } }
+                                                 } },
+                                                 {jobOffer:{
+                                                 "id":"testJo2",
+                                                        "Url_companyLogo":"c2testLogo",
+                                                        "companyName": "C2Test",
+                                                        "location": "teststadt",
+                                                        "jobTitle": "Tester",
+                                                        "jobDescription":"testing",
+                                                        "LinkJobAd": "www.C2Test.com"
+                                                 },application:{
+                                                 "id":"testC",
+                                                 "jobOfferID":"testJo2",
+                                                 "resume":"testC_Cv.pdf",
+                                                 "coverLetter": null,
+                                                 "applicationStatus":"IN_PROGRESS",
+                                                 "reminderTime": null,
+                                                 "dateOfCreation": "2025-02-19"
+                                                 },notes:[{
+                                                 "id":"nid1",
+                                                 "applicationId":"testC",
+                                                 "notes": "testnote"
+                                                 }]}
                         
                                                  ]
                         """)
