@@ -46,7 +46,7 @@ export default function Applicationdetails() {
     }
 
     function deleteEntry() {
-        const isConfirmed = window.confirm("are you sure? yo want to delete this Application?")
+        const isConfirmed = window.confirm("Are you sure you want to delete this application?")
         if (isConfirmed) {
             try {
                 axios.delete(`/api/application/${id}`)
