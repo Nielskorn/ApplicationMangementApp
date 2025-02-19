@@ -93,6 +93,7 @@ class JobApplicationTrackerControllerTest {
     void testGetJobApplicationTrackerById() throws Exception {
         applicationRepo.save(new Application("testA", "testJo", "testCv", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 10, 10)));
         jobOfferRepo.save(new JobOffer("testJo", "logoT", "cTest", "testLane", "tester2", "testing2", "testlink2"));
+
         mockMvc.perform(get("/api/JobApplication/" + "testA")).
                 andExpect(status().isOk()).
                 andExpect(content().
@@ -250,7 +251,7 @@ class JobApplicationTrackerControllerTest {
 
     @Test
     @DirtiesContext
-    void testGet6JobApploicationWithNextReminder() throws Exception {
+    void testGet6JobApplicationWithNextReminder() throws Exception {
         applicationRepo.saveAll(List.of(new Application("testA", "JOB54321", "Lebenslauf_Thomas_Meyer.pdf", "Anschreiben_Thomas_Meyer.pdf", ApplicationStatus.OPEN, LocalDateTime.of(2025, 2, 25, 8, 0), LocalDate.of(2025, 2, 12)), new Application("testB", "JOB12345", "Lebenslauf_Max_Mustermann.pdf", "Anschreiben_Max_Mustermann.pdf", ApplicationStatus.IN_PROGRESS, LocalDateTime.of(2025, 2, 20, 9, 0), LocalDate.of(2025, 2, 10)), new Application("testC", "JOB67890", "Lebenslauf_Anna_Schmidt.pdf", "Anschreiben_Anna_Schmidt.pdf", ApplicationStatus.OPEN, null, LocalDate.of(2025, 2, 11))));
         jobOfferRepo.saveAll(List.of(new JobOffer("JOB123456", "https://example.com/logo_company_a.png", "Company A", "Berlin, Germany", "Software Engineer", "Entwicklung von Webanwendungen und Cloud-Services.", "https://example.com/job12345"), new JobOffer("JOB67890", "https://example.com/logo_company_b.png", "Company B", "München, Germany", "Data Scientist", "Analyse von Daten und Erstellung von Machine-Learning-Modellen.", "https://example.com/job67890"), new JobOffer("JOB54321", "https://example.com/logo_company_c.png", "Company C", "Hamburg, Germany", "Product Manager", "Verantwortung für die Produktstrategie und -entwicklung.", "https://example.com/job54321"))
 
@@ -312,7 +313,7 @@ class JobApplicationTrackerControllerTest {
 
     @Test
     @DirtiesContext
-    void testGet6JobApploicationWithNextReminderwithMoreThen6() throws Exception {
+    void testGet6JobApplicationWithNextReminderWithMoreThen6() throws Exception {
         applicationRepo.saveAll(List.of(
                 new Application("testA", "JOB54321", "Lebenslauf_Thomas_Meyer.pdf", "Anschreiben_Thomas_Meyer.pdf", ApplicationStatus.OPEN, LocalDateTime.of(2025, 2, 25, 8, 0), LocalDate.of(2025, 2, 12)),
                 new Application("testB", "JOB12345", "Lebenslauf_Max_Mustermann.pdf", "Anschreiben_Max_Mustermann.pdf", ApplicationStatus.IN_PROGRESS, LocalDateTime.of(2025, 2, 20, 9, 0), LocalDate.of(2025, 2, 10)),
