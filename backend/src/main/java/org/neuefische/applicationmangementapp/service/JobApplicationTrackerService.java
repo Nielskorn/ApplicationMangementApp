@@ -37,8 +37,8 @@ public class JobApplicationTrackerService {
     public List<JobApplicationTracker> getApplications(boolean getAll) {
         List<JobApplicationTracker> jobApplicationTrackers = new ArrayList<>();
 
-        List<Application> appli = applicationService.getAllApplications();
-        for (Application app : appli) {
+        List<Application> applications = applicationService.getAllApplications();
+        for (Application app : applications) {
             Optional<JobOffer> optionalJobOffer = jobOfferService.getOJobOfferById(app.jobOfferID());
             JobOffer jobOffer = optionalJobOffer.orElse(null);
             JobApplicationTracker tracker;
