@@ -108,7 +108,7 @@ class JobOfferControllerTest {
                 andExpect(status().isOk()).
                 andExpect(content().json("""
                         {             "id":"test",
-                                     "Url_companyLogo":"uTest",
+                                     "Url_companyLogo":"uTestD",
                                      "companyName":"uTest",
                                      "location":"uTestL",
                                      "jobTitle":"uTestT",
