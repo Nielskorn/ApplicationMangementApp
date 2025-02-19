@@ -31,7 +31,7 @@ export default function JobDetailsPage() {
     }
 
     function deleteJob() {
-        const isConfirmed = window.confirm("Bist du sicher, dass du dieses Jobangebot löschen möchtest?")
+        const isConfirmed = window.confirm("Are you sure you want to delete this job offer?")
         if (isConfirmed) {
             axios.delete(`/api/job-offer/${id}`).then(() => {
                 alert("deleted Successfuly");
