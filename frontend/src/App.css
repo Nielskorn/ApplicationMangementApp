@@ -5,6 +5,7 @@
     text-align: center;
 }
 
+
 .logo {
     height: 6em;
     padding: 1.5em;
@@ -49,109 +50,113 @@
     color: #888;
 }
 
-.ulWithNoBullets {
-    list-style: none;
+
+@media (min-width: 600px) {
+    .ulWithNoBullets {
+        list-style: none;
+    }
+
+    .JobapplicationCard {
+        border-radius: 20px;
+        border: solid white;
+        padding: 5px;
+        margin: 5px;
+        gap: 10px;
+
+
+    }
+
+    .applicationCard {
+        margin: 5px;
+        border-radius: 20px;
+        border: solid white;
+    }
+
+    .jobOfferCard {
+        margin: 5px;
+        padding: 5px;
+        border-radius: 20px;
+        border: solid white;
+    }
+
+    .ApplicationDash {
+        border-radius: 20px;
+        border: solid white;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        background-color: #1a1a1a;
+        color: white;
+        font-weight: bold;
+        padding: 10px 15px;
+        border-radius: 20px;
+        transition: background 0.3s ease;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3
+        );
+        border: none;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .nav-item:hover {
+        background-color: white;
+        border-radius: 5px;
+    }
+
+    .nav-item.active {
+        color: black;
+    }
+
+    .header {
+
+        color: whitesmoke;
+
+        max-width: 100%;
+        min-width: 100%;
+
+    }
+
+    .JobapplicationDetailsCard {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    .jobOfferPart {
+
+        width: 45%;
+    }
+
+    .applicationPart {
+        width: 45%;
+
+    }
+
+    .switch-label {
+
+        font-size: x-large;
+        margin: 10px;
+        padding: 10px;
+        gap: 5px;
+    }
+
+    .textAreaNote {
+        width: 256px
+    }
 }
 
-.JobapplicationCard {
-    border-radius: 20px;
-    border: solid white;
-    padding: 5px;
-    margin: 5px;
-    gap: 10px;
-
-
-}
-
-.applicationCard {
-    margin: 5px;
-    border-radius: 20px;
-    border: solid white;
-}
-
-.jobOfferCard {
-    margin: 5px;
-    padding: 5px;
-    border-radius: 20px;
-    border: solid white;
-}
-
-.ApplicationDash {
-    border-radius: 20px;
-    border: solid white;
-    padding: 10px;
-    margin: 10px;
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    background-color: #1a1a1a;
-    color: white;
-    font-weight: bold;
-    padding: 10px 15px;
-    border-radius: 20px;
-    transition: background 0.3s ease;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3
-    );
-    border: none;
-}
-
-.navbar {
-    display: flex;
-    justify-content: center;
-
-    padding: 10px;
-    gap: 20px;
-}
-
-.nav-item:hover {
-    background-color: white;
-    border-radius: 5px;
-}
-
-.nav-item.active {
-    color: black;
-}
-
-.header {
-
-    color: whitesmoke;
-
-    max-width: 100%;
-    min-width: 100%;
-
-}
-
-.JobapplicationDetailsCard {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-}
-
-.jobOfferPart {
-
-    width: 45%;
-}
-
-.applicationPart {
-    width: 45%;
-
-}
-
-.switch-label {
-
-    font-size: x-large;
-    margin: 10px;
-    padding: 10px;
-    gap: 5px;
-}
-
-.textAreaNote {
-    width: 256px
-}
 
 .
