@@ -3,7 +3,7 @@ package org.neuefische.applicationmangementapp.service;
 import java.util.UUID;
 
 public class IdService {
-    private IdService() {
+    IdService() {
         throw new IllegalStateException("Utility class");
     }
 

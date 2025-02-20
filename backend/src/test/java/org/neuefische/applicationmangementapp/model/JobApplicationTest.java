@@ -11,14 +11,14 @@ class JobApplicationTest {
     @Test
     void testReminderNullToString() {
         String gotten = new JobApplicationTracker(null, new Application("testA", "testB", "testA.pdf", null, ApplicationStatus.OPEN, null, LocalDate.of(2025, 1, 20)), null).toString();
-        String expceted = "jobApplicationTracker" + null;
-        assertEquals(expceted, gotten);
+        String expected = "jobApplicationTracker" + null;
+        assertEquals(expected, gotten);
     }
 
     @Test
     void testReminderToString() {
         String gotten = new JobApplicationTracker(null, new Application("testA", "testB", "testA.pdf", null, ApplicationStatus.OPEN, LocalDateTime.of(2025, 10, 12, 15, 0), LocalDate.of(2025, 1, 20)), null).toString();
-        String expceted = "jobApplicationTracker" + "2025-10-12T15:00";
-        assertEquals(expceted, gotten);
+        String expected = "jobApplicationTracker" + "2025-10-12T15:00";
+        assertEquals(expected, gotten);
     }
 }
