@@ -46,11 +46,11 @@ export default function Applicationdetails() {
     }
 
     function deleteEntry() {
-        const isConfiremed = window.confirm("are you sure? yo want to delete this Application?")
-        if (isConfiremed) {
+        const isConfirmed = window.confirm("Are you sure you want to delete this application?")
+        if (isConfirmed) {
             try {
                 axios.delete(`/api/application/${id}`)
-                alert("application Gelöscht")
+                alert("application deleted")
                 navigate("/");
             } catch (error) {
                 console.error("fehler Beim löschen:", error);
